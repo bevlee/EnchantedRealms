@@ -11,8 +11,13 @@ config_version=5
 [application]
 
 config/name="Enchanted Realms"
+run/main_scene="res://CardBase.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
+
+[display]
+
+window/stretch/mode="canvas_items"
 
 [dotnet]
 

@@ -1,0 +1,178 @@
+[gd_scene load_steps=9 format=3 uid="uid://cw6i5svqiy243"]
+
+[ext_resource type="Script" path="res://CardBase.gd" id="1_hqpf6"]
+[ext_resource type="Texture2D" uid="uid://cg33q8v4s7p0c" path="res://Assets/Cards/Card Borders etc/cardborder.png" id="2_6s350"]
+[ext_resource type="FontFile" uid="uid://0mrgocx31baa" path="res://Assets/font/Comfortaa-Bold.ttf" id="3_yfk2u"]
+[ext_resource type="Texture2D" uid="uid://dwxi6lg8tgvpi" path="res://Assets/GUI/background shade.png" id="4_ysx4w"]
+[ext_resource type="Texture2D" uid="uid://cb4bvr4sll6f6" path="res://Assets/Cards/Misc/CostBackground.png" id="5_blcxu"]
+[ext_resource type="Texture2D" uid="uid://dtkhuhumvv7m6" path="res://Assets/Cards/Misc/ATKBackground.png" id="6_8srd8"]
+[ext_resource type="Texture2D" uid="uid://bjl403dq3yyut" path="res://Assets/Cards/Misc/HPBackground.png" id="6_ia3nw"]
+[ext_resource type="Texture2D" uid="uid://6hbj7cg7i32" path="res://Assets/Cards/Misc/LevelBackground.png" id="7_h6avj"]
+
+[node name="CardBase" type="MarginContainer"]
+offset_right = 254.0
+offset_bottom = 350.0
+pivot_offset = Vector2(125, 175)
+script = ExtResource("1_hqpf6")
+
+[node name="Card" type="Sprite2D" parent="."]
+centered = false
+
+[node name="Border" type="Sprite2D" parent="."]
+texture = ExtResource("2_6s350")
+centered = false
+
+[node name="CardBars" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="TopMargin" type="MarginContainer" parent="CardBars"]
+custom_minimum_size = Vector2(254, 10)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="TopBar" type="HBoxContainer" parent="CardBars"]
+custom_minimum_size = Vector2(254, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="LeftMargin" type="MarginContainer" parent="CardBars/TopBar"]
+custom_minimum_size = Vector2(15, 0)
+layout_mode = 2
+
+[node name="TypeIcon" type="MarginContainer" parent="CardBars/TopBar"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+
+[node name="TypeIconSprite" type="Sprite2D" parent="CardBars/TopBar/TypeIcon"]
+centered = false
+
+[node name="MidSection" type="VBoxContainer" parent="CardBars/TopBar"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CardBars/TopBar/MidSection"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_yfk2u")
+theme_override_font_sizes/font_size = 13
+text = "Footman"
+
+[node name="Stars" type="Node2D" parent="CardBars/TopBar/MidSection"]
+
+[node name="MarginContainer" type="MarginContainer" parent="CardBars/TopBar/MidSection"]
+custom_minimum_size = Vector2(150, 25)
+layout_mode = 2
+
+[node name="Background" type="Sprite2D" parent="CardBars/TopBar/MidSection/MarginContainer"]
+modulate = Color(1, 1, 1, 0.623529)
+position = Vector2(0, -20)
+scale = Vector2(0.75, 0.5)
+texture = ExtResource("4_ysx4w")
+centered = false
+offset = Vector2(0, 40)
+
+[node name="Star" type="Sprite2D" parent="CardBars/TopBar/MidSection/MarginContainer"]
+
+[node name="MarginContainer" type="MarginContainer" parent="CardBars/TopBar"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CostBackground" type="Sprite2D" parent="CardBars/TopBar/MarginContainer"]
+scale = Vector2(0.035, 0.035)
+texture = ExtResource("5_blcxu")
+centered = false
+offset = Vector2(5, 0)
+
+[node name="Cost" type="Label" parent="CardBars/TopBar/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "19"
+
+[node name="MidSectionEmptySpace" type="MarginContainer" parent="CardBars"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="Skill3" type="Label" parent="CardBars"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "3333333333333333333"
+
+[node name="Skill2" type="Label" parent="CardBars"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "222222222222"
+
+[node name="Skill1" type="Label" parent="CardBars"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "HEHEHE"
+
+[node name="ATKWeightRow" type="HBoxContainer" parent="CardBars"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="WaitTime" type="MarginContainer" parent="CardBars/ATKWeightRow"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+
+[node name="WaitLabel" type="Label" parent="CardBars/ATKWeightRow/WaitTime"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 18
+
+[node name="ATK" type="MarginContainer" parent="CardBars/ATKWeightRow"]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+
+[node name="ATKBackground" type="Sprite2D" parent="CardBars/ATKWeightRow/ATK"]
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("6_8srd8")
+centered = false
+
+[node name="ATKLabel" type="Label" parent="CardBars/ATKWeightRow/ATK"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.909804, 0.909804, 0.909804, 1)
+theme_override_font_sizes/font_size = 18
+
+[node name="LvHPRow" type="HBoxContainer" parent="CardBars"]
+layout_mode = 2
+
+[node name="Level" type="MarginContainer" parent="CardBars/LvHPRow"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+
+[node name="LevelBackground" type="Sprite2D" parent="CardBars/LvHPRow/Level"]
+scale = Vector2(0.057, 0.057)
+texture = ExtResource("7_h6avj")
+centered = false
+
+[node name="LevelLabel" type="Label" parent="CardBars/LvHPRow/Level"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 18
+
+[node name="HP" type="MarginContainer" parent="CardBars/LvHPRow"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+
+[node name="HPBackground" type="Sprite2D" parent="CardBars/LvHPRow/HP"]
+position = Vector2(-4, 0)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("6_ia3nw")
+centered = false
+
+[node name="HPLabel" type="Label" parent="CardBars/LvHPRow/HP"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.909804, 0.909804, 0.909804, 1)
+theme_override_font_sizes/font_size = 18
