@@ -1,0 +1,94 @@
+[gd_scene load_steps=4 format=3 uid="uid://d30ttbjyojxbn"]
+
+[ext_resource type="Script" path="res://card_hand_view.gd" id="1_6svlv"]
+[ext_resource type="Texture2D" uid="uid://14kolklufpde" path="res://Assets/Cards/Borders/square_border.png" id="2_lqw5j"]
+[ext_resource type="Texture2D" uid="uid://fx0vhvgok50k" path="res://Assets/Cards/Misc/Hourglass.png" id="3_kbp35"]
+
+[node name="CardHandView" type="MarginContainer"]
+offset_right = 180.0
+offset_bottom = 180.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_6svlv")
+
+[node name="Card" type="Sprite2D" parent="."]
+centered = false
+
+[node name="Border" type="Sprite2D" parent="."]
+texture = ExtResource("2_lqw5j")
+centered = false
+
+[node name="Rows" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Stars" type="Sprite2D" parent="Rows"]
+centered = false
+
+[node name="MiddleEmpty" type="MarginContainer" parent="Rows"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="ATKRow" type="HBoxContainer" parent="Rows"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Rows/ATKRow"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+
+[node name="ATK" type="MarginContainer" parent="Rows/ATKRow"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+
+[node name="ATKLabel" type="Label" parent="Rows/ATKRow/ATK"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 2
+
+[node name="LvHPRow" type="HBoxContainer" parent="Rows"]
+layout_mode = 2
+
+[node name="Wait" type="MarginContainer" parent="Rows/LvHPRow"]
+custom_minimum_size = Vector2(25, 0)
+layout_mode = 2
+
+[node name="WaitSprite" type="Sprite2D" parent="Rows/LvHPRow/Wait"]
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("3_kbp35")
+centered = false
+
+[node name="WaitLabel" type="Label" parent="Rows/LvHPRow/Wait"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0.282353, 0.454902, 0.368627, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 30
+text = "5
+"
+
+[node name="MarginContainer" type="MarginContainer" parent="Rows/LvHPRow"]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+
+[node name="HP" type="MarginContainer" parent="Rows/LvHPRow"]
+layout_direction = 3
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="HPLabel" type="Label" parent="Rows/LvHPRow/HP"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 2
+
+[node name="Interact" type="TextureButton" parent="."]
+layout_mode = 2
+
+[connection signal="pressed" from="Interact" to="." method="_on_interact_pressed"]

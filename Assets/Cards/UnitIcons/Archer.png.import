@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d2ujprcv545wj"
-path="res://.godot/imported/background shade.png-76ef9c808b5dd06d961cd3062529708c.ctex"
+uid="uid://gl12wmvv1lmj"
+path="res://.godot/imported/Archer.png-8f7f58631f823bb8358fe30400416cf2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Cards/Card Borders etc/background shade.png"
-dest_files=["res://.godot/imported/background shade.png-76ef9c808b5dd06d961cd3062529708c.ctex"]
+source_file="res://Assets/Cards/UnitIcons/Archer.png"
+dest_files=["res://.godot/imported/Archer.png-8f7f58631f823bb8358fe30400416cf2.ctex"]
 
 [params]
 

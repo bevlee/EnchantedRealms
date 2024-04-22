@@ -1,0 +1,81 @@
+[gd_scene load_steps=8 format=3 uid="uid://3mwjmqustnpk"]
+
+[ext_resource type="Script" path="res://combat_ui.gd" id="1_angt7"]
+[ext_resource type="Texture2D" uid="uid://bqf5yi35ykihx" path="res://Assets/Background/majestic-mountain-peak-space-fantasy-generated-by-ai_188544-24724.jpg" id="2_lnffm"]
+[ext_resource type="Texture2D" uid="uid://d100whwhug23x" path="res://Assets/Cards/Borders/Back_Texture.png" id="3_6d5ls"]
+[ext_resource type="Script" path="res://Player1Hand.gd" id="5_clcei"]
+[ext_resource type="PackedScene" uid="uid://rd3v4m4jrx63" path="res://card_combat_view.tscn" id="5_snqwc"]
+[ext_resource type="PackedScene" uid="uid://cw6i5svqiy243" path="res://card_detail_view.tscn" id="6_hqhut"]
+[ext_resource type="PackedScene" uid="uid://d30ttbjyojxbn" path="res://card_hand_view.tscn" id="7_cepwt"]
+
+[node name="CombatUI" type="Node2D"]
+script = ExtResource("1_angt7")
+
+[node name="Background" type="Sprite2D" parent="."]
+scale = Vector2(0.94, 0.94)
+texture = ExtResource("2_lnffm")
+centered = false
+
+[node name="Player1Hand" type="Node2D" parent="."]
+script = ExtResource("5_clcei")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Player2Hand" type="Panel" parent="NinePatchRect"]
+custom_minimum_size = Vector2(500, 100)
+layout_mode = 0
+offset_left = 212.0
+offset_top = 41.0
+offset_right = 712.0
+offset_bottom = 141.0
+
+[node name="Cards" type="Sprite2D" parent="NinePatchRect/Player2Hand" groups=["cardsInHand"]]
+
+[node name="Player1Hand" type="Panel" parent="NinePatchRect"]
+custom_minimum_size = Vector2(500, 100)
+layout_mode = 0
+offset_left = 211.0
+offset_top = 581.0
+offset_right = 711.0
+offset_bottom = 681.0
+
+[node name="Cards" type="Sprite2D" parent="NinePatchRect/Player1Hand" groups=["cardsInHand"]]
+centered = false
+
+[node name="Player1Icon" type="Sprite2D" parent="NinePatchRect"]
+
+[node name="Player2Icon" type="Sprite2D" parent="NinePatchRect"]
+
+[node name="Player1Deck" type="Sprite2D" parent="NinePatchRect"]
+position = Vector2(104, 632)
+scale = Vector2(2, 2)
+texture = ExtResource("3_6d5ls")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Deck" type="Node2D" parent="."]
+
+[node name="Button" type="Button" parent="."]
+offset_left = 921.0
+offset_top = 330.0
+offset_right = 1122.0
+offset_bottom = 387.0
+theme_override_font_sizes/font_size = 35
+text = "NEXT TURN
+"
+
+[node name="CardCombatView" parent="." instance=ExtResource("5_snqwc")]
+
+[node name="CardDetailView" parent="." instance=ExtResource("6_hqhut")]
+
+[node name="CardHandView" parent="." instance=ExtResource("7_cepwt")]
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="ready_card" from="CardHandView" to="." method="_on_ready_card"]
+[connection signal="unready_card" from="CardHandView" to="." method="_on_unready_card"]
+[connection signal="view_card_detail" from="CardHandView" to="." method="_on_view_card_detail"]

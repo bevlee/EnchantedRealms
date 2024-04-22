@@ -2,13 +2,24 @@ extends MarginContainer
 
 @onready var cardDatabase = preload("res://CardsDatabase.gd")
 
-var cardName = "Knight"
-@onready var cardInfo = cardDatabase.DATA[cardName]
-@onready var cardImg = str("res://Assets/Cards/Units/", cardName, ".png")
+var cardName = "Footman"
+var level = 10
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	load_card(cardName, level)
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+
+
+func load_card(cardName, level):
+	var cardInfo = cardDatabase.DATA[cardName]
+	var cardImg = str("res://Assets/Cards/Units/", cardName, ".png")
+
 	var cardSize = size
-	var level = 10
 	print(cardImg)
 	$Border.scale *= cardSize / $Border.texture.get_size()
 	$Card.texture = load(cardImg)
@@ -24,7 +35,6 @@ func _ready():
 	$CardBars/TopBar/TypeIcon/TypeIconSprite.texture = load(cardTypeIcon)
 	$CardBars/TopBar/TypeIcon/TypeIconSprite.scale *= $CardBars/TopBar/TypeIcon.custom_minimum_size / $CardBars/TopBar/TypeIcon/TypeIconSprite.texture.get_size()
 	
-	
 	# Load in the stars 
 	var stars = cardInfo[1]
 	for n in range(stars):
@@ -36,13 +46,11 @@ func _ready():
 		starSprite.position.x += 15*n + 5
 		starSprite.scale *= Vector2(15, 15) / starSprite.texture.get_size()
 		$CardBars/TopBar/MidSection/MarginContainer/Star.add_child(starSprite)
-		
 	
 	# Set Skills
 	$CardBars/Skill1.text = cardInfo[4] + "    "
 	$CardBars/Skill2.text = cardInfo[5] + "    "
 	$CardBars/Skill3.text = cardInfo[6] + "    "
-	
 	
 	# Set Cost
 	var cost = cardInfo[2]
@@ -63,7 +71,3 @@ func _ready():
 	var hp = cardInfo[9] + cardInfo[12]*level
 	$CardBars/LvHPRow/HP/HPLabel.text = "     " + str(hp)
 	
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass

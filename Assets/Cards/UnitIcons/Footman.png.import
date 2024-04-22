@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b80abqmlkp84a"
-path="res://.godot/imported/Gold_Border.png-eb60a39a845bdb6b0ac9287f205254a1.ctex"
+uid="uid://5fjh7aw3si0r"
+path="res://.godot/imported/Footman.png-4447604788dc9ef5d8fc73bfa6eb35c5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Cards/Card Borders etc/Gold_Border.png"
-dest_files=["res://.godot/imported/Gold_Border.png-eb60a39a845bdb6b0ac9287f205254a1.ctex"]
+source_file="res://Assets/Cards/UnitIcons/Footman.png"
+dest_files=["res://.godot/imported/Footman.png-4447604788dc9ef5d8fc73bfa6eb35c5.ctex"]
 
 [params]
 
