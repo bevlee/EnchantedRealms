@@ -17,9 +17,7 @@ const MAX_HAND_SIZE = 5
 const MAX_TURN_COUNT = 1000
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	
-	playerDeck = Global.playerStateMachine.deck.duplicate(true)
-	shuffle_deck(playerDeck)
+	hide()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -68,22 +66,32 @@ func _on_button_pressed():
 			playerHand.push_back(newCard)
 	process_turn()
 
-func _on_ready_card(handPosition):
-	pass # Replace with function body.
-
-
-func _on_unready_card(handPosition):
-	pass # Replace with function body.
-
 
 
 func _on_view_card_detail(cardName, level):
-	
+	print("we viewing the deets")
 	var detailedCardView = detailCardBase.instantiate()
 	detailedCardView.cardName = cardName
 	detailedCardView.level = level
 	detailedCardView.position = Vector2(1000,500)
+	print(detailedCardView.position)
 	detailedCardView.scale *= 2#detailCardSize / detailedCardView.size
 	add_child(detailedCardView)
 	playerHand.push_back(detailedCardView)
 
+
+
+func _on_unready_card(cardName, level, handPosition):
+	print("readying")
+
+
+func _on_ready_card(cardName, level, handPosition):
+	print("unreadying")
+
+func _on_combat_start():
+	
+	playerDeck = Global.playerStateMachine.deck.duplicate(true)
+	shuffle_deck(playerDeck)
+
+func start():
+	show()

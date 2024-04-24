@@ -1,8 +1,8 @@
 extends MarginContainer
 
 signal view_card_detail(cardName, level)
-signal ready_card(handPosition)
-signal unready_card(handPosition)
+signal ready_card(cardName, level, handPosition)
+signal unready_card(cardName, level, handPosition)
 
 enum cardStates {
 	Preparing, Ready, Played,
@@ -18,7 +18,7 @@ var state = cardStates.Preparing
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	load_card(cardName, level)
+	hide()
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -84,9 +84,9 @@ func _on_interact_pressed():
 		
 	print("clicked", cardName, handPosition)
 	if state == cardStates.Ready:
-		ready_card.emit()
+		ready_card.emit(cardName, level, handPosition)
 	elif state == cardStates.Played:
-		unready_card.emit()
+		unready_card.emit(cardName, level, handPosition)
 	else:
-		view_card_detail.emit()
+		view_card_detail.emit(cardName, level)
 

@@ -12,7 +12,7 @@
 script = ExtResource("1_angt7")
 
 [node name="Background" type="Sprite2D" parent="."]
-scale = Vector2(0.94, 0.94)
+scale = Vector2(0.557971, 0.702155)
 texture = ExtResource("2_lnffm")
 centered = false
 

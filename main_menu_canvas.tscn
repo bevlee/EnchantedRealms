@@ -6,6 +6,7 @@
 
 [node name="MainMenuCanvas" type="CanvasLayer"]
 script = ExtResource("1_53d2d")
+combatScene = ExtResource("3_8235e")
 
 [node name="Background" type="Sprite2D" parent="."]
 scale = Vector2(0.67, 0.67)
