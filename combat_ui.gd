@@ -62,6 +62,7 @@ func _on_button_pressed():
 			newCard.position = $NinePatchRect/Player1Hand/Cards.position
 			newCard.position.x += 100*(len(playerHand))
 			newCard.scale *= handCardSize / newCard.size
+			#newCard.loadCard(nextCard, 2)
 			$NinePatchRect/Player1Hand/Cards.add_child(newCard)
 			playerHand.push_back(newCard)
 	process_turn()
@@ -77,6 +78,7 @@ func _on_view_card_detail(cardName, level):
 	print(detailedCardView.position)
 	detailedCardView.scale *= 2#detailCardSize / detailedCardView.size
 	add_child(detailedCardView)
+	detailedCardView.show()
 	playerHand.push_back(detailedCardView)
 
 
