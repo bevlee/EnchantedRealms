@@ -1,0 +1,37 @@
+[gd_scene load_steps=7 format=3 uid="uid://by1wg8xvvbb37"]
+
+[ext_resource type="Script" path="res://Main.gd" id="1_4y7lb"]
+[ext_resource type="PackedScene" uid="uid://rd3v4m4jrx63" path="res://card_combat_view.tscn" id="2_7nh1b"]
+[ext_resource type="PackedScene" uid="uid://cw6i5svqiy243" path="res://card_detail_view.tscn" id="3_ljq2i"]
+[ext_resource type="PackedScene" uid="uid://d30ttbjyojxbn" path="res://card_hand_view.tscn" id="4_b3yly"]
+[ext_resource type="PackedScene" uid="uid://3mwjmqustnpk" path="res://combat_ui.tscn" id="5_lldwt"]
+[ext_resource type="PackedScene" uid="uid://blyy2jman7w1l" path="res://main_menu_canvas.tscn" id="6_vashp"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_4y7lb")
+
+[node name="DummyLabel" type="Label" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 600.0
+offset_top = 328.0
+offset_right = 715.0
+offset_bottom = 351.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "DUMMY LABEL"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CardCombatView" parent="." instance=ExtResource("2_7nh1b")]
+
+[node name="CardDetailView" parent="." instance=ExtResource("3_ljq2i")]
+
+[node name="CardHandView" parent="." instance=ExtResource("4_b3yly")]
+
+[node name="CombatUI" parent="." instance=ExtResource("5_lldwt")]
+
+[node name="MainMenuCanvas" parent="." instance=ExtResource("6_vashp")]
+
+[connection signal="startBattle" from="MainMenuCanvas" to="." method="_on_main_menu_canvas_start_battle"]

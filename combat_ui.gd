@@ -88,10 +88,11 @@ func _on_unready_card(cardName, level, handPosition):
 func _on_ready_card(cardName, level, handPosition):
 	print("unreadying")
 
-func _on_combat_start():
-	
+func start():
+	print("combatStarting")
+	show() 
 	playerDeck = Global.playerStateMachine.deck.duplicate(true)
 	shuffle_deck(playerDeck)
+	print(playerDeck)
 
-func start():
-	show()
+

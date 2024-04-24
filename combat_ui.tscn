@@ -1,18 +1,16 @@
-[gd_scene load_steps=8 format=3 uid="uid://3mwjmqustnpk"]
+[gd_scene load_steps=5 format=3 uid="uid://3mwjmqustnpk"]
 
 [ext_resource type="Script" path="res://combat_ui.gd" id="1_angt7"]
 [ext_resource type="Texture2D" uid="uid://bqf5yi35ykihx" path="res://Assets/Background/majestic-mountain-peak-space-fantasy-generated-by-ai_188544-24724.jpg" id="2_lnffm"]
 [ext_resource type="Texture2D" uid="uid://d100whwhug23x" path="res://Assets/Cards/Borders/Back_Texture.png" id="3_6d5ls"]
 [ext_resource type="Script" path="res://Player1Hand.gd" id="5_clcei"]
-[ext_resource type="PackedScene" uid="uid://rd3v4m4jrx63" path="res://card_combat_view.tscn" id="5_snqwc"]
-[ext_resource type="PackedScene" uid="uid://cw6i5svqiy243" path="res://card_detail_view.tscn" id="6_hqhut"]
-[ext_resource type="PackedScene" uid="uid://d30ttbjyojxbn" path="res://card_hand_view.tscn" id="7_cepwt"]
 
 [node name="CombatUI" type="Node2D"]
 script = ExtResource("1_angt7")
 
 [node name="Background" type="Sprite2D" parent="."]
-scale = Vector2(0.557971, 0.702155)
+position = Vector2(4.76837e-07, -3)
+scale = Vector2(0.964493, 0.979721)
 texture = ExtResource("2_lnffm")
 centered = false
 
@@ -69,13 +67,4 @@ theme_override_font_sizes/font_size = 35
 text = "NEXT TURN
 "
 
-[node name="CardCombatView" parent="." instance=ExtResource("5_snqwc")]
-
-[node name="CardDetailView" parent="." instance=ExtResource("6_hqhut")]
-
-[node name="CardHandView" parent="." instance=ExtResource("7_cepwt")]
-
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
-[connection signal="ready_card" from="CardHandView" to="." method="_on_ready_card"]
-[connection signal="unready_card" from="CardHandView" to="." method="_on_unready_card"]
-[connection signal="view_card_detail" from="CardHandView" to="." method="_on_view_card_detail"]
