@@ -1,6 +1,7 @@
 extends Node2D
 
 signal nextTurn
+signal backToMainMenu
 const handCardSize = Vector2(100,100)
 const detailCardSize = Vector2(250,350)
 var handCardBase = preload("res://card_hand_view.tscn")
@@ -97,4 +98,9 @@ func start():
 	shuffle_deck(playerDeck)
 	print(playerDeck)
 
+func finish():
+	hide()
 
+
+func _on_back_button_pressed():
+	backToMainMenu.emit()

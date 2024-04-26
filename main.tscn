@@ -34,4 +34,5 @@ vertical_alignment = 1
 
 [node name="MainMenuCanvas" parent="." instance=ExtResource("6_vashp")]
 
+[connection signal="backToMainMenu" from="CombatUI" to="." method="_on_combat_ui_back_to_main_menu"]
 [connection signal="startBattle" from="MainMenuCanvas" to="." method="_on_main_menu_canvas_start_battle"]

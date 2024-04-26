@@ -2,7 +2,7 @@ extends Node2D
 
 
 var mainMenu
-@export var combatScene: PackedScene
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$MainMenuCanvas.show()
@@ -23,3 +23,9 @@ func _on_main_menu_canvas_start_battle():
 	#combat.show()
 	#add_child(combat)
 	$CombatUI.start()
+
+
+func _on_combat_ui_back_to_main_menu():
+	print("back to main menu")
+	$CombatUI.finish()
+	$MainMenuCanvas.show()

@@ -12,7 +12,7 @@ script = ExtResource("1_angt7")
 
 [node name="Background" type="Sprite2D" parent="."]
 position = Vector2(4.76837e-07, -3)
-scale = Vector2(0.964493, 0.979721)
+scale = Vector2(0.933333, 0.940431)
 texture = ExtResource("2_lnffm")
 centered = false
 
@@ -60,6 +60,15 @@ texture = ExtResource("3_6d5ls")
 
 [node name="Deck" type="Node2D" parent="."]
 
+[node name="BackButton" type="Button" parent="."]
+offset_left = 1078.0
+offset_top = 651.0
+offset_right = 1279.0
+offset_bottom = 708.0
+theme_override_font_sizes/font_size = 35
+text = "GO BACK
+"
+
 [node name="Button" type="Button" parent="."]
 offset_left = 921.0
 offset_top = 330.0
@@ -70,7 +79,10 @@ text = "NEXT TURN
 "
 
 [node name="CardCombatView" parent="." instance=ExtResource("5_snqwc")]
+visible = false
 
 [node name="CardHandView" parent="." instance=ExtResource("7_cepwt")]
+visible = false
 
+[connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
