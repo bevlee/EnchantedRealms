@@ -67,7 +67,6 @@ func process_turn():
 	var currentWait = int($Rows/LvHPRow/Wait/WaitLabel.text)
 	if (currentWait != 0):
 		$Rows/LvHPRow/Wait/WaitLabel.text = str(currentWait - 1)
-		print("lowered")
 	else: 
 		var playableBorder = str("res://Assets/Cards/Borders/square_border_playable.png")
 		$Border.texture = load(playableBorder)
