@@ -25,7 +25,6 @@ func _on_main_menu_canvas_start_battle():
 	#combat.show()
 	#add_child(combat)
 	start_battle()
-	combat_ui.start()
 
 func start_battle():
 	combat_scene = load("res://combat_ui.tscn")
@@ -35,6 +34,8 @@ func start_battle():
 	combat_ui.backToMainMenu.connect(_on_combat_ui_back_to_main_menu)
 	#Connect a signal from a node within the instantiated scene
 	var back_button = combat_ui.get_node("BackButton")
+	
+	combat_ui.start()
 	
 func _on_combat_ui_back_to_main_menu():
 	print("back to main menu")

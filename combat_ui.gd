@@ -44,6 +44,7 @@ func shuffle_deck(cardList):
 
 func process_turn():
 	turn = turn + 1
+	$TurnLabel.text = "Turn: " + str(turn)
 	var handCards = $NinePatchRect/Player1Hand/Cards.get_children()
 	for i in range(len(handCards)):
 		handCards[i].process_turn()

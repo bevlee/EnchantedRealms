@@ -84,5 +84,13 @@ visible = false
 [node name="CardHandView" parent="." instance=ExtResource("7_cepwt")]
 visible = false
 
+[node name="TurnLabel" type="Label" parent="."]
+offset_left = 17.0
+offset_top = 317.0
+offset_right = 62.0
+offset_bottom = 340.0
+theme_override_font_sizes/font_size = 25
+text = "Turn: 1"
+
 [connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
