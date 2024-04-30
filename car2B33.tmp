@@ -10,15 +10,17 @@
 [ext_resource type="Texture2D" uid="uid://6hbj7cg7i32" path="res://Assets/Cards/Misc/LevelBackground.png" id="8_u3wex"]
 [ext_resource type="Texture2D" uid="uid://bjl403dq3yyut" path="res://Assets/Cards/Misc/HPBackground.png" id="9_mud6e"]
 
-[node name="CardDetailView" type="MarginContainer"]
+[node name="CardDetailView" type="Node2D"]
 script = ExtResource("1_n16gs")
 
 [node name="Background" type="ColorRect" parent="."]
-layout_mode = 2
+offset_right = 1280.0
+offset_bottom = 720.0
 color = Color(0, 0, 0, 1)
 
 [node name="CardArea" type="MarginContainer" parent="."]
-layout_mode = 2
+offset_right = 1280.0
+offset_bottom = 720.0
 
 [node name="Card" type="Sprite2D" parent="CardArea"]
 centered = false

@@ -66,9 +66,12 @@ func _on_button_pressed():
 			newCard.scale *= handCardSize / newCard.size
 			#newCard.loadCard(nextCard, 2)
 			$NinePatchRect/Player1Hand/Cards.add_child(newCard)
+			
+			newCard.ready_card.connect(_on_ready_card)
+			newCard.unready_card.connect(_on_unready_card)
+			newCard.view_card_detail.connect(_on_view_card_detail)
 			playerHand.push_back(newCard)
 	process_turn()
-
 
 
 func _on_view_card_detail(cardName, level):
@@ -76,12 +79,12 @@ func _on_view_card_detail(cardName, level):
 	var detailedCardView = detailCardBase.instantiate()
 	detailedCardView.cardName = cardName
 	detailedCardView.level = level
-	detailedCardView.position = Vector2(1000,500)
-	print(detailedCardView.position)
-	detailedCardView.scale *= 2#detailCardSize / detailedCardView.size
+	#detailedCardView.position = Vector2(1000,500)
+	#print(detailedCardView.position)
+	#detailedCardView.scale *= 2#detailCardSize / detailedCardView.size
 	add_child(detailedCardView)
 	detailedCardView.show()
-	playerHand.push_back(detailedCardView)
+	#playerHand.push_back(detailedCardView)
 
 
 
