@@ -1,4 +1,4 @@
-extends MarginContainer
+extends NinePatchRect
 
 @onready var cardDatabase = preload("res://CardsDatabase.gd")
 
@@ -19,11 +19,11 @@ func load_card(cardName, level):
 	var cardInfo = cardDatabase.DATA[cardName]
 	var cardImg = str("res://Assets/Cards/Units/", cardName, ".png")
 
-	var cardSize = size
+	var cardSize = $CardArea.size
 	print(cardImg)
 	$CardArea/Border.scale *= cardSize / $CardArea/Border.texture.get_size()
 	$CardArea/Card.texture = load(cardImg)
-	$CardArea/Card.scale *= cardSize/$CardArea/Card.texture.get_size()
+	$CardArea/Card.scale *= cardSize / $CardArea/Card.texture.get_size()
 	
 	$CardArea/CardBars/TopBar/MidSection/Label.text = cardName
 	

@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://cw6i5svqiy243"]
+[gd_scene load_steps=11 format=3 uid="uid://cw6i5svqiy243"]
 
 [ext_resource type="Script" path="res://CardDetailView.gd" id="1_n16gs"]
 [ext_resource type="Texture2D" uid="uid://cg33q8v4s7p0c" path="res://Assets/Cards/Borders/cardborder.png" id="2_ewkpy"]
+[ext_resource type="Script" path="res://Background.gd" id="2_x7mmf"]
 [ext_resource type="FontFile" uid="uid://0mrgocx31baa" path="res://Assets/font/Comfortaa-Bold.ttf" id="3_ppsmw"]
 [ext_resource type="Texture2D" uid="uid://dwxi6lg8tgvpi" path="res://Assets/GUI/background shade.png" id="4_r7xm0"]
 [ext_resource type="Texture2D" uid="uid://cb4bvr4sll6f6" path="res://Assets/Cards/Misc/CostBackground.png" id="5_jg27r"]
@@ -10,15 +11,27 @@
 [ext_resource type="Texture2D" uid="uid://6hbj7cg7i32" path="res://Assets/Cards/Misc/LevelBackground.png" id="8_u3wex"]
 [ext_resource type="Texture2D" uid="uid://bjl403dq3yyut" path="res://Assets/Cards/Misc/HPBackground.png" id="9_mud6e"]
 
-[node name="CardDetailView" type="MarginContainer"]
+[node name="CardDetailView" type="NinePatchRect"]
+offset_right = 1280.0
+offset_bottom = 720.0
 script = ExtResource("1_n16gs")
 
 [node name="Background" type="ColorRect" parent="."]
 layout_mode = 2
+offset_right = 1280.0
+offset_bottom = 720.0
 color = Color(0, 0, 0, 1)
+script = ExtResource("2_x7mmf")
 
 [node name="CardArea" type="MarginContainer" parent="."]
-layout_mode = 2
+layout_mode = 1
+anchors_preset = -1
+offset_left = 277.0
+offset_top = 171.0
+offset_right = 551.0
+offset_bottom = 528.0
+size_flags_horizontal = 0
+size_flags_vertical = 4
 
 [node name="Card" type="Sprite2D" parent="CardArea"]
 centered = false
@@ -29,6 +42,8 @@ centered = false
 
 [node name="CardBars" type="VBoxContainer" parent="CardArea"]
 layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
 
 [node name="TopMargin" type="MarginContainer" parent="CardArea/CardBars"]
 custom_minimum_size = Vector2(254, 10)

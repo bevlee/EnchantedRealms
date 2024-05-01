@@ -6,7 +6,7 @@ const handCardSize = Vector2(100,100)
 const detailCardSize = Vector2(250,350)
 var handCardBase = preload("res://card_hand_view.tscn")
 var detailCardBase = preload("res://card_detail_view.tscn")
-
+var detailedCardView
 var oppoenentDeck = []
 var opponentHand = []
 
@@ -76,7 +76,7 @@ func _on_button_pressed():
 
 func _on_view_card_detail(cardName, level):
 	print("we viewing the deets")
-	var detailedCardView = detailCardBase.instantiate()
+	detailedCardView = detailCardBase.instantiate()
 	detailedCardView.cardName = cardName
 	detailedCardView.level = level
 	#detailedCardView.position = Vector2(1000,500)
@@ -84,8 +84,13 @@ func _on_view_card_detail(cardName, level):
 	#detailedCardView.scale *= 2#detailCardSize / detailedCardView.size
 	add_child(detailedCardView)
 	detailedCardView.show()
+	var exit_button = detailedCardView.get_node("Background")
+	exit_button.leave_detailed_view.connect(_on_exit_view_card_detail)
 	#playerHand.push_back(detailedCardView)
-
+	
+func _on_exit_view_card_detail():
+	print("we not viewing the deets anymore")
+	detailedCardView.queue_free()
 
 
 func _on_unready_card(cardName, level, handPosition):
