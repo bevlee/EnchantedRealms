@@ -70,6 +70,7 @@ func process_turn():
 	else: 
 		var playableBorder = str("res://Assets/Cards/Borders/square_border_playable.png")
 		$Border.texture = load(playableBorder)
+		state = cardStates.Ready
 		
 		
 

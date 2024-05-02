@@ -9,7 +9,8 @@ var detailCardBase = preload("res://card_detail_view.tscn")
 var detailedCardView
 var oppoenentDeck = []
 var opponentHand = []
-
+var opponentQueuedCards = []
+var playerQueuedCards = []
 var playerDeck = []
 var playerHand = []
 
@@ -94,10 +95,19 @@ func _on_exit_view_card_detail():
 
 
 func _on_unready_card(cardName, level, handPosition):
-	print("readying")
+	for i in range(len(playerQueuedCards)):
+		if (playerQueuedCards[i] == handPosition):
+			playerQueuedCards.remove_at(i)
+			
+	print(playerQueuedCards)
+	
+	
 
 
 func _on_ready_card(cardName, level, handPosition):
+	
+	playerQueuedCards.append(handPosition)
+	print(playerQueuedCards)
 	print("unreadying")
 
 func start():
