@@ -6,7 +6,7 @@ var cardName = "Footman"
 var level  = 1
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	hide()
+	load_card(cardName, level)
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
