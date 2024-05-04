@@ -1,6 +1,7 @@
 extends NinePatchRect
 
 @onready var cardDatabase = preload("res://CardsDatabase.gd")
+@onready var skillDatabase = preload("res://SkillsDatabase.gd")
 
 var cardName = "Footman"
 var level = 10
@@ -48,9 +49,9 @@ func load_card(cardName, level):
 		$CardArea/CardBars/TopBar/MidSection/MarginContainer/Star.add_child(starSprite)
 	
 	# Set Skills
-	$CardArea/CardBars/Skill1.text = cardInfo[4] + "    "
-	$CardArea/CardBars/Skill2.text = cardInfo[5] + "    "
-	$CardArea/CardBars/Skill3.text = cardInfo[6] + "    "
+	$CardArea/CardBars/Skill1.text = "[right][color=#000000]" + cardInfo[4] + " [img]" + skillDatabase.DATA[cardInfo[4]][1] + "[/img]    [/color][/right]"
+	$CardArea/CardBars/Skill2.text = "[right][color=#000000]" + cardInfo[5] + " [img]" + skillDatabase.DATA[cardInfo[5]][1] + "[/img]    [/color][/right]"
+	$CardArea/CardBars/Skill3.text = "[right][color=#000000]" + cardInfo[6] + " [img]" + skillDatabase.DATA[cardInfo[6]][1] + "[/img]    [/color][/right]"
 	
 	# Set Cost
 	var cost = cardInfo[2]
