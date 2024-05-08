@@ -42,8 +42,15 @@ func shuffle_deck(cardList):
 		cardList[i] = tempValue
 	
 	
-
+func playCards():
+	var card
+	while len(playerQueuedCards) > 0:
+		card = playerQueuedCards.pop_front()
+		
+		
 func process_turn():
+	if len(playerQueuedCards) > 0:
+		playCards()
 	turn = turn + 1
 	$TurnLabel.text = "Turn: " + str(turn)
 	var handCards = $NinePatchRect/Player1Hand/Cards.get_children()
@@ -100,15 +107,13 @@ func _on_unready_card(cardName, level, handPosition):
 			playerQueuedCards.remove_at(i)
 			
 	print(playerQueuedCards)
+	print("unreadying")
 	
-	
-
-
 func _on_ready_card(cardName, level, handPosition):
 	
 	playerQueuedCards.append(handPosition)
 	print(playerQueuedCards)
-	print("unreadying")
+	print("readying")
 
 func start():
 	print("combatStarting")

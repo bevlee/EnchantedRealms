@@ -3,7 +3,7 @@ extends MarginContainer
 signal view_card_detail(cardName, level)
 signal ready_card(cardName, level, handPosition)
 signal unready_card(cardName, level, handPosition)
-
+var shader_material
 enum cardStates {
 	Preparing, Ready, Played,
 }
@@ -19,7 +19,15 @@ var state = cardStates.Preparing
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	load_card(cardName, level)
+	# Create a ShaderMaterial with your shader
+	shader_material = ShaderMaterial.new()
+	shader_material.shader = load("res://card_hand_view.gdshader")
 	
+	# Assign the ShaderMaterial to this specific instance of the Sprite2D node
+	$Card.set_material(shader_material)
+
+	# Optionally, set shader parameters if needed
+	#shader_material.set_shader_parameter("parameter_name", value)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -85,8 +93,12 @@ func _on_interact_pressed():
 	print("clicked", cardName, handPosition)
 	if state == cardStates.Ready:
 		ready_card.emit(cardName, level, handPosition)
+		state = cardStates.Played
+		shader_material.set_shader_parameter("active", state == cardStates.Played)
+		
 	elif state == cardStates.Played:
 		unready_card.emit(cardName, level, handPosition)
+		state = cardStates.Ready
+		shader_material.set_shader_parameter("active", state == cardStates.Played)
 	else:
 		view_card_detail.emit(cardName, level)
-
