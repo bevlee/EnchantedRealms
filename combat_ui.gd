@@ -102,10 +102,11 @@ func _on_exit_view_card_detail():
 
 
 func _on_unready_card(cardName, level, handPosition):
+	var position
 	for i in range(len(playerQueuedCards)):
 		if (playerQueuedCards[i] == handPosition):
-			playerQueuedCards.remove_at(i)
-			
+			position = i
+	playerQueuedCards.remove_at(position)
 	print(playerQueuedCards)
 	print("unreadying")
 	
