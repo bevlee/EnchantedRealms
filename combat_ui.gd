@@ -4,8 +4,10 @@ signal nextTurn
 signal backToMainMenu
 const handCardSize = Vector2(100,100)
 const detailCardSize = Vector2(250,350)
+const combatCardSize = Vector2(250,350)
 var handCardBase = preload("res://card_hand_view.tscn")
 var detailCardBase = preload("res://card_detail_view.tscn")
+var combatCardBase = preload("res://card_detail_view.tscn")
 var detailedCardView
 var oppoenentDeck = []
 var opponentHand = []
@@ -13,7 +15,9 @@ var opponentQueuedCards = []
 var playerQueuedCards = []
 var playerDeck = []
 var playerHand = []
-
+var player_battlefield_cards = []
+var opponent_battlefield_cards = []
+var auto_combat = true
 var turn = 0
 const MAX_HAND_SIZE = 5
 const MAX_TURN_COUNT = 1000
@@ -43,10 +47,22 @@ func shuffle_deck(cardList):
 	
 	
 func playCards():
+	var card_pos
 	var card
 	while len(playerQueuedCards) > 0:
-		card = playerQueuedCards.pop_front()
+		card_pos = playerQueuedCards.pop_front()
+		card = playerHand[card_pos]
+		playerHand.remove_at(card_pos)
 		
+		var combat_card = combatCardBase.instantiate()
+		combat_card.cardName = card.cardName
+		combat_card.level = card.level
+		
+		combat_card.position = $NinePatchRect/BattleField/Player1Area.position
+		
+		combat_card.scale *= combatCardSize / combat_card.size
+		
+		$NinePatchRect/BattleField/Player1Area.add_child(combat_card)
 		
 func process_turn():
 	if len(playerQueuedCards) > 0:
@@ -55,10 +71,14 @@ func process_turn():
 	$TurnLabel.text = "Turn: " + str(turn)
 	var handCards = $NinePatchRect/Player1Hand/Cards.get_children()
 	for i in range(len(handCards)):
-		handCards[i].process_turn()
+		handCards[i].process_hand_turn()
+	if (auto_combat):
+		for i in range(len(handCards)):
+			if handCards[i].current_wait_timer == 0:
+				playerQueuedCards.append(i)
 	
 	
-func _on_button_pressed():
+func _on_next_turn_button_pressed():
 	if (len(playerHand) < MAX_HAND_SIZE):
 		var nextCard = draw(playerDeck)
 		

@@ -56,6 +56,25 @@ position = Vector2(104, 632)
 scale = Vector2(2, 2)
 texture = ExtResource("3_6d5ls")
 
+[node name="BattleField" type="ColorRect" parent="NinePatchRect"]
+layout_mode = 0
+offset_left = 212.0
+offset_top = 142.0
+offset_right = 1082.0
+offset_bottom = 582.0
+color = Color(0.266667, 0.266667, 0.270588, 0.65098)
+
+[node name="Player1Area" type="MarginContainer" parent="NinePatchRect/BattleField"]
+layout_mode = 2
+offset_right = 870.0
+offset_bottom = 220.0
+
+[node name="Player2Area" type="MarginContainer" parent="NinePatchRect/BattleField"]
+layout_mode = 2
+offset_top = 221.0
+offset_right = 870.0
+offset_bottom = 441.0
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Deck" type="Node2D" parent="."]
@@ -69,11 +88,20 @@ theme_override_font_sizes/font_size = 35
 text = "GO BACK
 "
 
-[node name="Button" type="Button" parent="."]
-offset_left = 921.0
-offset_top = 330.0
-offset_right = 1122.0
-offset_bottom = 387.0
+[node name="AutoButton" type="Button" parent="."]
+offset_left = 1078.0
+offset_top = 272.0
+offset_right = 1281.0
+offset_bottom = 335.0
+theme_override_font_sizes/font_size = 27
+text = "AUTO COMBAT
+"
+
+[node name="NextTurnButton" type="Button" parent="."]
+offset_left = 1077.0
+offset_top = 390.0
+offset_right = 1278.0
+offset_bottom = 447.0
 theme_override_font_sizes/font_size = 35
 text = "NEXT TURN
 "
@@ -93,4 +121,4 @@ theme_override_font_sizes/font_size = 25
 text = "Turn: 1"
 
 [connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]
-[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="NextTurnButton" to="." method="_on_next_turn_button_pressed"]

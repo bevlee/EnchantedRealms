@@ -11,8 +11,8 @@ enum cardStates {
 var handPosition = null
 var cardName = 'Footman'
 var level = 1
-var wait = 4
-
+var default_wait_timer = 4
+var current_wait_timer
 var state = cardStates.Preparing
 
 
@@ -59,8 +59,9 @@ func load_card(cardName, level):
 		
 		
 	# Set Wait
-	var wait = cardInfo[3]
-	$Rows/LvHPRow/Wait/WaitLabel.text = "  " + str(wait)
+	default_wait_timer = cardInfo[3]
+	$Rows/LvHPRow/Wait/WaitLabel.text = "  " + str(default_wait_timer)
+	current_wait_timer = default_wait_timer
 	
 	
 	# Set ATK
@@ -71,17 +72,18 @@ func load_card(cardName, level):
 	var hp = cardInfo[9] + cardInfo[12]*level
 	$Rows/LvHPRow/HP/HPLabel.text = "HP: " + str(hp)
 	
-func process_turn():
-	var currentWait = int($Rows/LvHPRow/Wait/WaitLabel.text)
-	if (currentWait != 0):
-		$Rows/LvHPRow/Wait/WaitLabel.text = str(currentWait - 1)
-	else: 
+func process_hand_turn():
+	current_wait_timer = int($Rows/LvHPRow/Wait/WaitLabel.text)
+	if (current_wait_timer <= 1):
+		current_wait_timer = 0
+		$Rows/LvHPRow/Wait/WaitLabel.text = "0"
 		var playableBorder = str("res://Assets/Cards/Borders/square_border_playable.png")
 		$Border.texture = load(playableBorder)
 		state = cardStates.Ready
+	else: 
+		current_wait_timer = current_wait_timer - 1
+		$Rows/LvHPRow/Wait/WaitLabel.text = str(current_wait_timer)
 		
-		
-
 
 func _on_interact_pressed():
 	#match state:
