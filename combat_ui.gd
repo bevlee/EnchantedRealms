@@ -4,10 +4,10 @@ signal nextTurn
 signal backToMainMenu
 const handCardSize = Vector2(100,100)
 const detailCardSize = Vector2(250,350)
-const combatCardSize = Vector2(250,350)
+const combatCardSize = Vector2(180,220)
 var handCardBase = preload("res://card_hand_view.tscn")
 var detailCardBase = preload("res://card_detail_view.tscn")
-var combatCardBase = preload("res://card_detail_view.tscn")
+var combatCardBase = preload("res://card_combat_view.tscn")
 var detailedCardView
 var oppoenentDeck = []
 var opponentHand = []
@@ -50,20 +50,46 @@ func playCards():
 	var card_pos
 	var card
 	while len(playerQueuedCards) > 0:
+		print("player hand:")
+		print(playerHand)
 		card_pos = playerQueuedCards.pop_front()
 		card = playerHand[card_pos]
-		playerHand.remove_at(card_pos)
+		move_card(card.cardName, "hand", "battlefield", card_pos)
+		
 		
 		var combat_card = combatCardBase.instantiate()
 		combat_card.cardName = card.cardName
 		combat_card.level = card.level
 		
 		combat_card.position = $NinePatchRect/BattleField/Player1Area.position
+		combat_card.position.x += 700 * len(player_battlefield_cards)
 		
 		combat_card.scale *= combatCardSize / combat_card.size
 		
 		$NinePatchRect/BattleField/Player1Area.add_child(combat_card)
+		player_battlefield_cards.push_back(combat_card)
+		var playerbattlefieldCardNames = []
+		for battlefield_card in player_battlefield_cards:
+			playerbattlefieldCardNames.append(battlefield_card.cardName)
+		print("battle cards: ")
+		print( playerbattlefieldCardNames)
 		
+	
+func rerender(location):
+	if location == "hand":
+		for i in range(len(playerHand)):
+			playerHand[i].position = $NinePatchRect/Player1Hand/Cards.position
+			playerHand[i].position.x += 200*i
+			
+			
+func move_card(cardName, location, destination, position):
+	print("moving card" + cardName + "from " + location +  "in position " + str(position) + " to " + destination)
+	if (location == "hand"):
+		playerHand[position].queue_free()
+		playerHand.remove_at(position)
+	rerender(location)
+	rerender(destination)
+	
 func process_turn():
 	if len(playerQueuedCards) > 0:
 		playCards()
@@ -99,7 +125,13 @@ func _on_next_turn_button_pressed():
 			newCard.unready_card.connect(_on_unready_card)
 			newCard.view_card_detail.connect(_on_view_card_detail)
 			playerHand.push_back(newCard)
+			
 	process_turn()
+	var playerHandCardNames = []
+	for card in playerHand:
+		playerHandCardNames.append(card.cardName)
+	print("hand cards: ")
+	print( playerHandCardNames)
 
 
 func _on_view_card_detail(cardName, level):
