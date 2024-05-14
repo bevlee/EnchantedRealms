@@ -49,9 +49,10 @@ func shuffle_deck(cardList):
 func playCards():
 	var card_pos
 	var card
+	var cards_played = 0
 	while len(playerQueuedCards) > 0:
-		print("player hand:")
-		print(playerHand)
+		print("playerqueued cards are: ")
+		print(playerQueuedCards)
 		card_pos = playerQueuedCards.pop_front()
 		card = playerHand[card_pos]
 		move_card(card.cardName, "hand", "battlefield", card_pos)
@@ -73,20 +74,28 @@ func playCards():
 			playerbattlefieldCardNames.append(battlefield_card.cardName)
 		print("battle cards: ")
 		print( playerbattlefieldCardNames)
+		cards_played += 1
 		
 	
 func rerender(location):
 	if location == "hand":
 		for i in range(len(playerHand)):
 			playerHand[i].position = $NinePatchRect/Player1Hand/Cards.position
-			playerHand[i].position.x += 200*i
+			playerHand[i].position.x += 100*i
 			
-			
+
+
+func update_queued_cards(position):
+	for card_position in playerQueuedCards:
+		if card_position > position:
+			card_position -= 1
+
 func move_card(cardName, location, destination, position):
 	print("moving card" + cardName + "from " + location +  "in position " + str(position) + " to " + destination)
 	if (location == "hand"):
 		playerHand[position].queue_free()
 		playerHand.remove_at(position)
+		update_queued_cards(position)
 	rerender(location)
 	rerender(destination)
 	
