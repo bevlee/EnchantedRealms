@@ -64,16 +64,20 @@ offset_right = 1082.0
 offset_bottom = 582.0
 color = Color(0.266667, 0.266667, 0.270588, 0.65098)
 
-[node name="Player1Area" type="MarginContainer" parent="NinePatchRect/BattleField"]
+[node name="Player2Area" type="MarginContainer" parent="NinePatchRect/BattleField"]
 layout_mode = 2
 offset_right = 870.0
 offset_bottom = 220.0
 
-[node name="Player2Area" type="MarginContainer" parent="NinePatchRect/BattleField"]
+[node name="Cards" type="Sprite2D" parent="NinePatchRect/BattleField/Player2Area"]
+
+[node name="Player1Area" type="MarginContainer" parent="NinePatchRect/BattleField"]
 layout_mode = 2
 offset_top = 221.0
 offset_right = 870.0
 offset_bottom = 441.0
+
+[node name="Cards" type="Sprite2D" parent="NinePatchRect/BattleField/Player1Area"]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

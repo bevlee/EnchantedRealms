@@ -62,12 +62,12 @@ func playCards():
 		combat_card.cardName = card.cardName
 		combat_card.level = card.level
 		
-		combat_card.position = $NinePatchRect/BattleField/Player1Area.position
-		combat_card.position.x += 700 * len(player_battlefield_cards)
+		combat_card.position = $NinePatchRect/BattleField/Player1Area/Cards.position
+		combat_card.position.x += 200 * len(player_battlefield_cards)
 		
 		combat_card.scale *= combatCardSize / combat_card.size
 		
-		$NinePatchRect/BattleField/Player1Area.add_child(combat_card)
+		$NinePatchRect/BattleField/Player1Area/Cards.add_child(combat_card)
 		player_battlefield_cards.push_back(combat_card)
 		var playerbattlefieldCardNames = []
 		for battlefield_card in player_battlefield_cards:
@@ -87,7 +87,7 @@ func rerender(location):
 
 func update_queued_cards(position):
 	for card_position in playerQueuedCards:
-		if card_position > position:
+		if card_position >= position:
 			card_position -= 1
 
 func move_card(cardName, location, destination, position):
@@ -96,12 +96,13 @@ func move_card(cardName, location, destination, position):
 		playerHand[position].queue_free()
 		playerHand.remove_at(position)
 		update_queued_cards(position)
+	print("player hand after moving")
+	print(playerHand)
+	
 	rerender(location)
 	rerender(destination)
 	
 func process_turn():
-	if len(playerQueuedCards) > 0:
-		playCards()
 	turn = turn + 1
 	$TurnLabel.text = "Turn: " + str(turn)
 	var handCards = $NinePatchRect/Player1Hand/Cards.get_children()
@@ -111,7 +112,10 @@ func process_turn():
 		for i in range(len(handCards)):
 			if handCards[i].current_wait_timer == 0:
 				playerQueuedCards.append(i)
+				print(handCards[i].cardName)
 	
+	if len(playerQueuedCards) > 0:
+		playCards()
 	
 func _on_next_turn_button_pressed():
 	if (len(playerHand) < MAX_HAND_SIZE):
@@ -144,7 +148,6 @@ func _on_next_turn_button_pressed():
 
 
 func _on_view_card_detail(cardName, level):
-	print("we viewing the deets")
 	detailedCardView = detailCardBase.instantiate()
 	detailedCardView.cardName = cardName
 	detailedCardView.level = level
@@ -158,7 +161,6 @@ func _on_view_card_detail(cardName, level):
 	#playerHand.push_back(detailedCardView)
 	
 func _on_exit_view_card_detail():
-	print("we not viewing the deets anymore")
 	detailedCardView.queue_free()
 
 
@@ -168,14 +170,9 @@ func _on_unready_card(cardName, level, handPosition):
 		if (playerQueuedCards[i] == handPosition):
 			position = i
 	playerQueuedCards.remove_at(position)
-	print(playerQueuedCards)
-	print("unreadying")
 	
 func _on_ready_card(cardName, level, handPosition):
-	
 	playerQueuedCards.append(handPosition)
-	print(playerQueuedCards)
-	print("readying")
 
 func start():
 	print("combatStarting")
