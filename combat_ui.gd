@@ -102,27 +102,20 @@ func move_card(cardName, location, destination, position):
 	rerender(location)
 	rerender(destination)
 	
-func process_turn():
+func pre_draw_phase():
 	turn = turn + 1
 	$TurnLabel.text = "Turn: " + str(turn)
 	var handCards = $NinePatchRect/Player1Hand/Cards.get_children()
+	#decrease timer of cards in hand
 	for i in range(len(handCards)):
 		handCards[i].process_hand_turn()
-	if (auto_combat):
-		for i in range(len(handCards)):
-			if handCards[i].current_wait_timer == 0:
-				playerQueuedCards.append(i)
-				print(handCards[i].cardName)
 	
-	if len(playerQueuedCards) > 0:
-		playCards()
-	
-func _on_next_turn_button_pressed():
+
+func draw_phase():
 	if (len(playerHand) < MAX_HAND_SIZE):
 		var nextCard = draw(playerDeck)
 		
 		if nextCard != null:
-			
 			var newCard = handCardBase.instantiate()
 			newCard.cardName = nextCard
 			newCard.level = 2
@@ -139,12 +132,26 @@ func _on_next_turn_button_pressed():
 			newCard.view_card_detail.connect(_on_view_card_detail)
 			playerHand.push_back(newCard)
 			
-	process_turn()
-	var playerHandCardNames = []
-	for card in playerHand:
-		playerHandCardNames.append(card.cardName)
-	print("hand cards: ")
-	print( playerHandCardNames)
+func action_phase():
+	var handCards = $NinePatchRect/Player1Hand/Cards.get_children()
+	if (auto_combat):
+		for i in range(len(handCards)):
+			if handCards[i].current_wait_timer == 0:
+				playerQueuedCards.append(i)
+				print(handCards[i].cardName)
+	
+	if len(playerQueuedCards) > 0:
+		playCards()
+		
+func _on_next_turn_button_pressed():
+	pre_draw_phase()
+	draw_phase()
+	action_phase()
+	#var playerHandCardNames = []
+	#for card in playerHand:
+		#playerHandCardNames.append(card.cardName)
+	#print("hand cards: ")
+	#print( playerHandCardNames)
 
 
 func _on_view_card_detail(cardName, level):
