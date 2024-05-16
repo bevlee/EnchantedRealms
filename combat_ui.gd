@@ -4,7 +4,7 @@ signal nextTurn
 signal backToMainMenu
 const handCardSize = Vector2(100,100)
 const detailCardSize = Vector2(250,350)
-const combatCardSize = Vector2(180,220)
+const combatCardSize = Vector2(160,220)
 var handCardBase = preload("res://card_hand_view.tscn")
 var detailCardBase = preload("res://card_detail_view.tscn")
 var combatCardBase = preload("res://card_combat_view.tscn")
@@ -63,7 +63,7 @@ func playCards():
 		combat_card.level = card.level
 		
 		combat_card.position = $NinePatchRect/BattleField/Player1Area/Cards.position
-		combat_card.position.x += 200 * len(player_battlefield_cards)
+		combat_card.position.x += 160 * len(player_battlefield_cards)
 		
 		combat_card.scale *= combatCardSize / combat_card.size
 		
@@ -85,10 +85,10 @@ func rerender(location):
 			
 
 
-func update_queued_cards(position):
-	for card_position in playerQueuedCards:
-		if card_position >= position:
-			card_position -= 1
+func update_queued_cards(position):	
+	for i in range(len(playerQueuedCards)):
+		if playerQueuedCards[i] > position:
+			playerQueuedCards[i] -= 1 
 
 func move_card(cardName, location, destination, position):
 	print("moving card" + cardName + "from " + location +  "in position " + str(position) + " to " + destination)
