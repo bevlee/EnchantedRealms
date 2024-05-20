@@ -4,6 +4,11 @@ extends MarginContainer
 
 var cardName = "Footman"
 var level  = 1
+var cardAtk
+var cardHP
+var skill1
+var skill2
+var skill3
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	load_card(cardName, level)
@@ -17,6 +22,9 @@ func _process(delta):
 
 func load_card(cardName,  level):
 	var cardInfo = cardDatabase.DATA[cardName]
+	skill1 = cardInfo[4]
+	skill2 = cardInfo[5]
+	skill3 = cardInfo[6]
 	var cardImg = str("res://Assets/Cards/Units/", cardName, ".png")
 
 	var cardSize = size
@@ -39,9 +47,11 @@ func load_card(cardName,  level):
 	# Set ATK
 	var atk = cardInfo[8] + cardInfo[11]*level
 	$CardBars/ATKRow/ATK/ATKLabel.text = "ATK: " + str(atk)
+	cardAtk = atk
 	
 	# Set hp
 	var hp = cardInfo[9] + cardInfo[12]*level
 	$CardBars/LvHPRow/HP/HPLabel.text = "HP: " + str(hp)
+	cardHP = hp
 	
 

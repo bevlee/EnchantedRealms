@@ -12,6 +12,8 @@ var detailedCardView
 var oppoenentDeck = []
 var opponentHand = []
 var opponentQueuedCards = []
+var oppoenentHeroHP
+var playerHeroHP
 var playerQueuedCards = []
 var playerDeck = []
 var playerHand = []
@@ -132,7 +134,7 @@ func draw_phase():
 			newCard.view_card_detail.connect(_on_view_card_detail)
 			playerHand.push_back(newCard)
 			
-func action_phase():
+func play_card_phase():
 	var handCards = $NinePatchRect/Player1Hand/Cards.get_children()
 	if (auto_combat):
 		for i in range(len(handCards)):
@@ -142,10 +144,29 @@ func action_phase():
 	
 	if len(playerQueuedCards) > 0:
 		playCards()
+
+func action_phase():
+	for i in len(player_battlefield_cards):
+		var card = player_battlefield_cards[i]
+		# perform card skill
+		var cardSkills = card.get_skills()
 		
+		#attack
+		basic_attack(card, i)
+func basic_attack(card, position):
+	if has_opposing_card(position):
+		opponent_battlefield_cards[position].cardHP -= card.attack
+	else:
+		oppoenentHeroHP -= card.attack
+	#dp something
+func has_opposing_card(position):
+	if opponent_battlefield_cards[position] != "":
+		return true
+	return false
 func _on_next_turn_button_pressed():
 	pre_draw_phase()
 	draw_phase()
+	play_card_phase()
 	action_phase()
 	#var playerHandCardNames = []
 	#for card in playerHand:
