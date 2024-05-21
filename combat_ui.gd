@@ -12,8 +12,8 @@ var detailedCardView
 var oppoenentDeck = []
 var opponentHand = []
 var opponentQueuedCards = []
-var oppoenentHeroHP
-var playerHeroHP
+var oppoenentHeroHP = 9000
+var playerHeroHP = 9000
 var playerQueuedCards = []
 var playerDeck = []
 var playerHand = []
@@ -155,12 +155,12 @@ func action_phase():
 		basic_attack(card, i)
 func basic_attack(card, position):
 	if has_opposing_card(position):
-		opponent_battlefield_cards[position].cardHP -= card.attack
+		opponent_battlefield_cards[position].cardHP -= card.cardAtk
 	else:
-		oppoenentHeroHP -= card.attack
+		oppoenentHeroHP -= card.cardAtk
 	#dp something
 func has_opposing_card(position):
-	if opponent_battlefield_cards[position] != "":
+	if len(opponent_battlefield_cards) > position and opponent_battlefield_cards[position] != "":
 		return true
 	return false
 func _on_next_turn_button_pressed():

@@ -54,4 +54,6 @@ func load_card(cardName,  level):
 	$CardBars/LvHPRow/HP/HPLabel.text = "HP: " + str(hp)
 	cardHP = hp
 	
+func get_skills():
+	return [skill1, skill2, skill3]
 
