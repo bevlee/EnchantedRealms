@@ -23,6 +23,22 @@ var auto_combat = true
 var turn = 0
 const MAX_HAND_SIZE = 5
 const MAX_TURN_COUNT = 1000
+
+#track the current
+enum phases {
+	# all hand cards decrease their wait timer by 1
+	pre_draw_phase, 
+	# the player draws a card if the deck is not empty
+	draw_phase, 
+	# cards with 0 CD will enter the battlefield in FIFO order
+	play_card_phase, 
+	# each card on the battlefield
+	action_phase
+}
+var state
+
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	hide()
@@ -35,8 +51,6 @@ func _process(delta):
 func _input(event):
 	pass
 		
-		
-			
 func draw(cardList):
 	return cardList.pop_front()
 	

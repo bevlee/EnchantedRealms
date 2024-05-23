@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://combat_ui.gd" id="1_angt7"]
 [ext_resource type="Texture2D" uid="uid://bqf5yi35ykihx" path="res://Assets/Background/majestic-mountain-peak-space-fantasy-generated-by-ai_188544-24724.jpg" id="2_lnffm"]
 [ext_resource type="Texture2D" uid="uid://d100whwhug23x" path="res://Assets/Cards/Borders/Back_Texture.png" id="3_6d5ls"]
-[ext_resource type="Script" path="res://Player1Hand.gd" id="5_clcei"]
+[ext_resource type="Script" path="res://Player.gd" id="5_clcei"]
 [ext_resource type="PackedScene" uid="uid://rd3v4m4jrx63" path="res://card_combat_view.tscn" id="5_snqwc"]
 [ext_resource type="PackedScene" uid="uid://d30ttbjyojxbn" path="res://card_hand_view.tscn" id="7_cepwt"]
 
