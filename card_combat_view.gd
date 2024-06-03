@@ -1,7 +1,7 @@
 extends MarginContainer
 
 @onready var cardDatabase = load("res://CardsDatabase.gd")
-
+@onready var skillDatabase = preload("res://SkillsDatabase.gd")
 var cardName = "Footman"
 var level  = 1
 var cardAtk
@@ -53,6 +53,10 @@ func load_card(cardName,  level):
 	var hp = cardInfo[9] + cardInfo[12]*level
 	$CardBars/LvHPRow/HP/HPLabel.text = "HP: " + str(hp)
 	cardHP = hp
+	# Set Skills
+	$CardBars/Skill1.text = "[right][color=#000000]" + cardInfo[4] + " [img]" + skillDatabase.DATA[cardInfo[4]][1] + "[/img]    [/color][/right]"
+	$CardBars/Skill2.text = "[right][color=#000000]" + cardInfo[5] + " [img]" + skillDatabase.DATA[cardInfo[5]][1] + "[/img]    [/color][/right]"
+	$CardBars/Skill3.text = "[right][color=#000000]" + cardInfo[6] + " [img]" + skillDatabase.DATA[cardInfo[6]][1] + "[/img]    [/color][/right]"
 	
 func get_skills():
 	return [skill1, skill2, skill3]

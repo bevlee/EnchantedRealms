@@ -44,8 +44,35 @@ layout_mode = 2
 centered = false
 
 [node name="MidSectionEmptySpace" type="MarginContainer" parent="CardBars"]
-custom_minimum_size = Vector2(0, 300)
+custom_minimum_size = Vector2(2.08165e-12, 200)
 layout_mode = 2
+
+[node name="Skill3" type="RichTextLabel" parent="CardBars"]
+custom_minimum_size = Vector2(200, 25)
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_constants/outline_size = 6
+bbcode_enabled = true
+text = "[right][color=#000000]PLACEHOLDER 3[/color][/right]"
+scroll_active = false
+
+[node name="Skill2" type="RichTextLabel" parent="CardBars"]
+custom_minimum_size = Vector2(200, 25)
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_constants/outline_size = 6
+bbcode_enabled = true
+text = "[right][color=#000000]PLACEHOLDER 2[/color][/right]"
+scroll_active = false
+
+[node name="Skill1" type="RichTextLabel" parent="CardBars"]
+custom_minimum_size = Vector2(200, 25)
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_constants/outline_size = 6
+bbcode_enabled = true
+text = "[right][color=#000000]PLACEHOLDER 1[/color][/right]"
+scroll_active = false
 
 [node name="ATKRow" type="HBoxContainer" parent="CardBars"]
 custom_minimum_size = Vector2(0, 50)
@@ -117,6 +144,3 @@ size_flags_horizontal = 0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 6
 theme_override_font_sizes/font_size = 18
-
-[node name="ActionText" type="Label" parent="."]
-layout_mode = 2
