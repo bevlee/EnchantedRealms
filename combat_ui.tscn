@@ -52,8 +52,8 @@ centered = false
 [node name="Player2Icon" type="Sprite2D" parent="NinePatchRect"]
 
 [node name="Player1Deck" type="Sprite2D" parent="NinePatchRect"]
-position = Vector2(104, 632)
-scale = Vector2(2, 2)
+position = Vector2(98, 672.25)
+scale = Vector2(2.35, 1.95536)
 texture = ExtResource("3_6d5ls")
 
 [node name="BattleField" type="ColorRect" parent="NinePatchRect"]
@@ -64,20 +64,75 @@ offset_right = 1082.0
 offset_bottom = 582.0
 color = Color(0.266667, 0.266667, 0.270588, 0.65098)
 
-[node name="Player2Area" type="MarginContainer" parent="NinePatchRect/BattleField"]
+[node name="Player2BattleArea" type="MarginContainer" parent="NinePatchRect/BattleField"]
 layout_mode = 2
 offset_right = 870.0
 offset_bottom = 220.0
 
-[node name="Cards" type="Sprite2D" parent="NinePatchRect/BattleField/Player2Area"]
+[node name="Cards" type="Sprite2D" parent="NinePatchRect/BattleField/Player2BattleArea"]
 
-[node name="Player1Area" type="MarginContainer" parent="NinePatchRect/BattleField"]
+[node name="Player1BattleArea" type="MarginContainer" parent="NinePatchRect/BattleField"]
 layout_mode = 2
 offset_top = 221.0
 offset_right = 870.0
 offset_bottom = 441.0
 
-[node name="Cards" type="Sprite2D" parent="NinePatchRect/BattleField/Player1Area"]
+[node name="Cards" type="Sprite2D" parent="NinePatchRect/BattleField/Player1BattleArea"]
+
+[node name="Player2Profile" type="Panel" parent="NinePatchRect"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 40.0
+offset_right = 206.0
+offset_bottom = 298.0
+
+[node name="HPLabel" type="Label" parent="NinePatchRect/Player2Profile"]
+layout_mode = 0
+offset_left = 23.0
+offset_top = 192.0
+offset_right = 185.0
+offset_bottom = 265.0
+theme_override_font_sizes/font_size = 30
+text = "HP: 9000
+"
+
+[node name="usernameLabel" type="Label" parent="NinePatchRect/Player2Profile"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 21.0
+offset_right = 138.0
+offset_bottom = 63.0
+theme_override_font_sizes/font_size = 30
+text = "Player2
+"
+
+[node name="Player1Profile" type="Panel" parent="NinePatchRect"]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 366.0
+offset_right = 212.0
+offset_bottom = 655.0
+
+[node name="HPLabel" type="Label" parent="NinePatchRect/Player1Profile"]
+layout_mode = 0
+offset_left = 19.0
+offset_top = 11.0
+offset_right = 181.0
+offset_bottom = 84.0
+theme_override_font_sizes/font_size = 30
+text = "HP: 9000
+"
+
+[node name="usernameLabel" type="Label" parent="NinePatchRect/Player1Profile"]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 190.0
+offset_right = 136.0
+offset_bottom = 232.0
+theme_override_font_sizes/font_size = 30
+text = "Player1
+
+"
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -123,6 +178,8 @@ offset_right = 62.0
 offset_bottom = 340.0
 theme_override_font_sizes/font_size = 25
 text = "Turn: 1"
+
+[node name="Player1HP" type="Node2D" parent="."]
 
 [connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]
 [connection signal="pressed" from="NextTurnButton" to="." method="_on_next_turn_button_pressed"]

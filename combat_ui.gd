@@ -10,20 +10,28 @@ var detailCardBase = preload("res://card_detail_view.tscn")
 var combatCardBase = preload("res://card_combat_view.tscn")
 var detailedCardView
 var oppoenentDeck = []
-var opponentHand = []
 var opponentQueuedCards = []
 var oppoenentHeroHP = 9000
 var playerHeroHP = 9000
 var playerQueuedCards = []
 var playerDeck = []
-var playerHand = []
 var player_battlefield_cards = []
 var opponent_battlefield_cards = []
+
+# general settings
 var auto_combat = true
 var turn = 0
 const MAX_HAND_SIZE = 5
 const MAX_TURN_COUNT = 1000
+# Track hand
 
+var opponentHand = []
+var playerHand = []
+# Track battlefield
+
+# Action queue
+#var queue = new Queue()
+#
 #track the current
 enum phases {
 	# all hand cards decrease their wait timer by 1
@@ -78,12 +86,12 @@ func playCards():
 		combat_card.cardName = card.cardName
 		combat_card.level = card.level
 		
-		combat_card.position = $NinePatchRect/BattleField/Player1Area/Cards.position
+		combat_card.position = $NinePatchRect/BattleField/Player1BattleArea/Cards.position
 		combat_card.position.x += 160 * len(player_battlefield_cards)
 		
 		combat_card.scale *= combatCardSize / combat_card.size
 		
-		$NinePatchRect/BattleField/Player1Area/Cards.add_child(combat_card)
+		$NinePatchRect/BattleField/Player1BattleArea/Cards.add_child(combat_card)
 		player_battlefield_cards.push_back(combat_card)
 		var playerbattlefieldCardNames = []
 		for battlefield_card in player_battlefield_cards:
