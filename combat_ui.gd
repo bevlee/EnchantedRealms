@@ -30,7 +30,9 @@ var playerHand = []
 # Track battlefield
 
 # Action queue
+# A quieue represnets all the actions in a players turn. How do i manage the effects of opponents cards in the queue?
 #var queue = new Queue()
+var queue = []
 #
 #track the current
 enum phases {
@@ -44,6 +46,7 @@ enum phases {
 	action_phase
 }
 var state
+var currentCardAction = 0
 
 
 
@@ -54,7 +57,15 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	pass
+	while state = phases.action_phase:
+		if currentCardAction < player_battlefield_cards.size()
+		var card = player_battlefield_cards[currentCardAction]
+		# perform card skill
+		var cardSkills = card.get_skills()
+		
+		#attack
+		basic_attack(card, i)
+		currentCardAction
 
 func _input(event):
 	pass
@@ -100,13 +111,13 @@ func playCards():
 		print( playerbattlefieldCardNames)
 		cards_played += 1
 		
-	
+# needs to be fixed, we =dont want updates when cards go to graveyard until end of turn
 func rerender(location):
 	if location == "hand":
 		for i in range(len(playerHand)):
 			playerHand[i].position = $NinePatchRect/Player1Hand/Cards.position
 			playerHand[i].position.x += 100*i
-			
+
 
 
 func update_queued_cards(position):	
@@ -168,13 +179,9 @@ func play_card_phase():
 		playCards()
 
 func action_phase():
-	for i in len(player_battlefield_cards):
-		var card = player_battlefield_cards[i]
-		# perform card skill
-		var cardSkills = card.get_skills()
-		
-		#attack
-		basic_attack(card, i)
+	state = phases.action_phase
+
+	
 func basic_attack(card, position):
 	if has_opposing_card(position):
 		opponent_battlefield_cards[position].cardHP -= card.cardAtk
