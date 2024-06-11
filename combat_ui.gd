@@ -46,7 +46,7 @@ enum phases {
 	action_phase
 }
 var state
-var currentCardAction = 0
+var currentCardPosition = 0
 
 
 
@@ -57,15 +57,17 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	while state = phases.action_phase:
-		if currentCardAction < player_battlefield_cards.size()
-		var card = player_battlefield_cards[currentCardAction]
-		# perform card skill
-		var cardSkills = card.get_skills()
-		
-		#attack
-		basic_attack(card, i)
-		currentCardAction
+	var card
+	var cardSkills
+	while state == phases.action_phase:
+		if currentCardPosition < player_battlefield_cards.size():
+			card = player_battlefield_cards[currentCardPosition]
+			# perform card skill
+			cardSkills = card.get_skills()
+			
+			#attack
+			basic_attack(card, currentCardPosition)
+			currentCardPosition
 
 func _input(event):
 	pass

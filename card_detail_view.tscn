@@ -119,32 +119,26 @@ text = "19"
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 
-[node name="Skill3" type="RichTextLabel" parent="CardArea/CardBars"]
-custom_minimum_size = Vector2(200, 25)
+[node name="Skill3" type="Label" parent="CardArea/CardBars"]
 layout_mode = 2
 size_flags_horizontal = 8
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 6
-bbcode_enabled = true
-text = "[right][color=#000000]PLACEHOLDER 3[/color][/right]"
-scroll_active = false
+text = "3333333333333333333"
 
-[node name="Skill2" type="RichTextLabel" parent="CardArea/CardBars"]
-custom_minimum_size = Vector2(200, 25)
+[node name="Skill2" type="Label" parent="CardArea/CardBars"]
 layout_mode = 2
 size_flags_horizontal = 8
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 6
-bbcode_enabled = true
-text = "[right][color=#000000]PLACEHOLDER 2[/color][/right]"
-scroll_active = false
+text = "222222222222"
 
-[node name="Skill1" type="RichTextLabel" parent="CardArea/CardBars"]
-custom_minimum_size = Vector2(200, 25)
+[node name="Skill1" type="Label" parent="CardArea/CardBars"]
 layout_mode = 2
 size_flags_horizontal = 8
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 6
-bbcode_enabled = true
-text = "[right][color=#000000]PLACEHOLDER 1[/color][/right]"
-scroll_active = false
+text = "HEHEHE"
 
 [node name="ATKWeightRow" type="HBoxContainer" parent="CardArea/CardBars"]
 custom_minimum_size = Vector2(0, 50)
