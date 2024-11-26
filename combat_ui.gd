@@ -8,10 +8,12 @@ const combatCardSize = Vector2(160,220)
 var handCardBase = preload("res://card_hand_view.tscn")
 var detailCardBase = preload("res://card_detail_view.tscn")
 var combatCardBase = preload("res://card_combat_view.tscn")
+var skillsDatabase = preload("res://SkillsDatabase.gd").DATA
+
 var detailedCardView
-var oppoenentDeck = []
+var opponentDeck = []
 var opponentQueuedCards = []
-var oppoenentHeroHP = 9000
+var opponentHeroHP = 9000
 var playerHeroHP = 9000
 var playerQueuedCards = []
 var playerDeck = []
@@ -23,10 +25,11 @@ var auto_combat = true
 var turn = 0
 const MAX_HAND_SIZE = 5
 const MAX_TURN_COUNT = 1000
-# Track hand
 
+# Track hand
 var opponentHand = []
 var playerHand = []
+
 # Track battlefield
 
 # Action queue
@@ -43,7 +46,9 @@ enum phases {
 	# cards with 0 CD will enter the battlefield in FIFO order
 	play_card_phase, 
 	# each card on the battlefield
-	action_phase
+	action_phase,
+	# final phase
+	end_phase
 }
 var state
 var currentCardPosition = 0
@@ -59,15 +64,6 @@ func _ready():
 func _process(delta):
 	var card
 	var cardSkills
-	while state == phases.action_phase:
-		if currentCardPosition < player_battlefield_cards.size():
-			card = player_battlefield_cards[currentCardPosition]
-			# perform card skill
-			cardSkills = card.get_skills()
-			
-			#attack
-			basic_attack(card, currentCardPosition)
-			currentCardPosition
 
 func _input(event):
 	pass
@@ -93,7 +89,6 @@ func playCards():
 		card_pos = playerQueuedCards.pop_front()
 		card = playerHand[card_pos]
 		move_card(card.cardName, "hand", "battlefield", card_pos)
-		
 		
 		var combat_card = combatCardBase.instantiate()
 		combat_card.cardName = card.cardName
@@ -122,7 +117,7 @@ func rerender(location):
 
 
 
-func update_queued_cards(position):	
+func update_queued_cards(position):
 	for i in range(len(playerQueuedCards)):
 		if playerQueuedCards[i] > position:
 			playerQueuedCards[i] -= 1 
@@ -182,23 +177,64 @@ func play_card_phase():
 
 func action_phase():
 	state = phases.action_phase
+	var card: Object
+	var cardSkills: Array
+	print("player has" + str(player_battlefield_cards.size()) + "cards on the field")
+	for currentCardPosition in range(player_battlefield_cards.size()):
+		card = player_battlefield_cards[currentCardPosition]
+		# perform card skill
+		cardSkills = card.get_skills()
+		for skill in cardSkills:
+			use_skill(skill) 
+		
+		## TODO impleement skills for active (look into reaction/defensive later)
+		print(cardSkills)
+		#attack
+		basic_attack(card, currentCardPosition)
+	state = phases.end_phase
 
 	
 func basic_attack(card, position):
+	card.cardAtk = 9999
+	#card.material.set_shader_parameter("outline_color", Color(255, 0.0, 0.0, 1.0))
+	
+	await get_tree().create_timer(1).timeout
 	if has_opposing_card(position):
 		opponent_battlefield_cards[position].cardHP -= card.cardAtk
 	else:
-		oppoenentHeroHP -= card.cardAtk
-	#dp something
+		#opponentHeroHP -= card.cardAtk
+		for i in range(card.cardAtk):
+			opponentHeroHP -= 1
+			$NinePatchRect/Player2Profile/HPLabel.text = str(opponentHeroHP)
+	
+	#card.material.set_shader_parameter("outline_color", Color(0, 0.0, 0.0, 1.0))
+	
+	
+func use_skill(skill) -> void:
+	match skill:
+		"snipe_2":
+			var card_with_lowest_hp
+			var lowest_hp: int = 100000
+			for card in opponent_battlefield_cards:
+				if card.cardHP < lowest_hp:
+					lowest_hp = card.cardHP
+					card_with_lowest_hp = card
+			card_with_lowest_hp.cardHP
+			
+func end_phase():
+	print("end phase")
+	
 func has_opposing_card(position):
 	if len(opponent_battlefield_cards) > position and opponent_battlefield_cards[position] != "":
 		return true
 	return false
+	
 func _on_next_turn_button_pressed():
 	pre_draw_phase()
 	draw_phase()
 	play_card_phase()
 	action_phase()
+	end_phase()
 	#var playerHandCardNames = []
 	#for card in playerHand:
 		#playerHandCardNames.append(card.cardName)

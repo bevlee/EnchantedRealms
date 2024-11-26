@@ -20,16 +20,14 @@ script = ExtResource("1_n16gs")
 layout_mode = 2
 offset_right = 1280.0
 offset_bottom = 720.0
-color = Color(0, 0, 0, 1)
+color = Color(0, 0, 0, 0.0901961)
 script = ExtResource("2_x7mmf")
+metadata/_edit_lock_ = true
 
 [node name="CardArea" type="MarginContainer" parent="."]
 layout_mode = 1
-anchors_preset = -1
-offset_left = 277.0
-offset_top = 171.0
-offset_right = 551.0
-offset_bottom = 528.0
+offset_right = 274.0
+offset_bottom = 357.0
 size_flags_horizontal = 0
 size_flags_vertical = 4
 
@@ -42,8 +40,6 @@ centered = false
 
 [node name="CardBars" type="VBoxContainer" parent="CardArea"]
 layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
 
 [node name="TopMargin" type="MarginContainer" parent="CardArea/CardBars"]
 custom_minimum_size = Vector2(254, 10)
@@ -116,97 +112,112 @@ theme_override_constants/outline_size = 6
 text = "19"
 
 [node name="MidSectionEmptySpace" type="MarginContainer" parent="CardArea/CardBars"]
-custom_minimum_size = Vector2(0, 100)
-layout_mode = 2
-
-[node name="Skill3" type="Label" parent="CardArea/CardBars"]
-layout_mode = 2
-size_flags_horizontal = 8
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 6
-text = "3333333333333333333"
-
-[node name="Skill2" type="Label" parent="CardArea/CardBars"]
-layout_mode = 2
-size_flags_horizontal = 8
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 6
-text = "222222222222"
-
-[node name="Skill1" type="Label" parent="CardArea/CardBars"]
-layout_mode = 2
-size_flags_horizontal = 8
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 6
-text = "HEHEHE"
-
-[node name="ATKWeightRow" type="HBoxContainer" parent="CardArea/CardBars"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 
-[node name="WaitTime" type="MarginContainer" parent="CardArea/CardBars/ATKWeightRow"]
+[node name="MarginContainer" type="MarginContainer" parent="CardArea/CardBars"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CardArea/CardBars/MarginContainer"]
+layout_mode = 2
+
+[node name="SkillContainer" type="VBoxContainer" parent="CardArea/CardBars/MarginContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="Skill3" type="RichTextLabel" parent="CardArea/CardBars/MarginContainer/VBoxContainer/SkillContainer"]
+clip_contents = false
+layout_mode = 2
+theme_override_constants/outline_size = 6
+bbcode_enabled = true
+text = "3333333333333333333"
+fit_content = true
+scroll_active = false
+
+[node name="Skill2" type="RichTextLabel" parent="CardArea/CardBars/MarginContainer/VBoxContainer/SkillContainer"]
+clip_contents = false
+layout_mode = 2
+theme_override_constants/outline_size = 6
+bbcode_enabled = true
+text = "222222222222"
+fit_content = true
+
+[node name="Skill1" type="RichTextLabel" parent="CardArea/CardBars/MarginContainer/VBoxContainer/SkillContainer"]
+clip_contents = false
+layout_mode = 2
+theme_override_constants/outline_size = 6
+bbcode_enabled = true
+text = "HEHEHE"
+fit_content = true
+scroll_active = false
+
+[node name="ATKWeightRow" type="HBoxContainer" parent="CardArea/CardBars/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="WaitTime" type="MarginContainer" parent="CardArea/CardBars/MarginContainer/VBoxContainer/ATKWeightRow"]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 
-[node name="WaitLabel" type="Label" parent="CardArea/CardBars/ATKWeightRow/WaitTime"]
+[node name="WaitLabel" type="Label" parent="CardArea/CardBars/MarginContainer/VBoxContainer/ATKWeightRow/WaitTime"]
 layout_mode = 2
 size_flags_horizontal = 8
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 6
 theme_override_font_sizes/font_size = 18
 
-[node name="WaitSprite" type="Sprite2D" parent="CardArea/CardBars/ATKWeightRow/WaitTime"]
+[node name="WaitSprite" type="Sprite2D" parent="CardArea/CardBars/MarginContainer/VBoxContainer/ATKWeightRow/WaitTime"]
 scale = Vector2(0.045, 0.045)
 texture = ExtResource("6_ukyrr")
 centered = false
 offset = Vector2(0, 15)
 
-[node name="ATK" type="MarginContainer" parent="CardArea/CardBars/ATKWeightRow"]
+[node name="ATK" type="MarginContainer" parent="CardArea/CardBars/MarginContainer/VBoxContainer/ATKWeightRow"]
 custom_minimum_size = Vector2(220, 0)
 layout_mode = 2
 
-[node name="ATKBackground" type="Sprite2D" parent="CardArea/CardBars/ATKWeightRow/ATK"]
+[node name="ATKBackground" type="Sprite2D" parent="CardArea/CardBars/MarginContainer/VBoxContainer/ATKWeightRow/ATK"]
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("7_n6pp5")
 centered = false
 
-[node name="ATKLabel" type="Label" parent="CardArea/CardBars/ATKWeightRow/ATK"]
+[node name="ATKLabel" type="Label" parent="CardArea/CardBars/MarginContainer/VBoxContainer/ATKWeightRow/ATK"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 6
 theme_override_font_sizes/font_size = 18
 
-[node name="LvHPRow" type="HBoxContainer" parent="CardArea/CardBars"]
+[node name="LvHPRow" type="HBoxContainer" parent="CardArea/CardBars/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Level" type="MarginContainer" parent="CardArea/CardBars/LvHPRow"]
+[node name="Level" type="MarginContainer" parent="CardArea/CardBars/MarginContainer/VBoxContainer/LvHPRow"]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 
-[node name="LevelBackground" type="Sprite2D" parent="CardArea/CardBars/LvHPRow/Level"]
+[node name="LevelBackground" type="Sprite2D" parent="CardArea/CardBars/MarginContainer/VBoxContainer/LvHPRow/Level"]
 scale = Vector2(0.057, 0.057)
 texture = ExtResource("8_u3wex")
 centered = false
 
-[node name="LevelLabel" type="Label" parent="CardArea/CardBars/LvHPRow/Level"]
+[node name="LevelLabel" type="Label" parent="CardArea/CardBars/MarginContainer/VBoxContainer/LvHPRow/Level"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 6
 theme_override_font_sizes/font_size = 18
 
-[node name="HP" type="MarginContainer" parent="CardArea/CardBars/LvHPRow"]
+[node name="HP" type="MarginContainer" parent="CardArea/CardBars/MarginContainer/VBoxContainer/LvHPRow"]
 custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
 
-[node name="HPBackground" type="Sprite2D" parent="CardArea/CardBars/LvHPRow/HP"]
+[node name="HPBackground" type="Sprite2D" parent="CardArea/CardBars/MarginContainer/VBoxContainer/LvHPRow/HP"]
 position = Vector2(-4, 0)
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("9_mud6e")
 centered = false
 
-[node name="HPLabel" type="Label" parent="CardArea/CardBars/LvHPRow/HP"]
+[node name="HPLabel" type="Label" parent="CardArea/CardBars/MarginContainer/VBoxContainer/LvHPRow/HP"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_colors/font_color = Color(0, 0, 0, 1)

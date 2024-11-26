@@ -1,9 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://rd3v4m4jrx63"]
+[gd_scene load_steps=7 format=3 uid="uid://rd3v4m4jrx63"]
 
 [ext_resource type="Script" path="res://card_combat_view.gd" id="1_4wd61"]
 [ext_resource type="Texture2D" uid="uid://cg33q8v4s7p0c" path="res://Assets/Cards/Borders/cardborder.png" id="2_aa80t"]
 [ext_resource type="Texture2D" uid="uid://cy1ij6ipxxpw6" path="res://Assets/Cards/Misc/SkillBackground.png" id="2_jj5qt"]
+[ext_resource type="Shader" path="res://card_combat_view.gdshader" id="2_oqfop"]
 [ext_resource type="Texture2D" uid="uid://6hbj7cg7i32" path="res://Assets/Cards/Misc/LevelBackground.png" id="3_w4skc"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4jd34"]
+shader = ExtResource("2_oqfop")
+shader_parameter/outline_width = 1.0
+shader_parameter/outline_color = Color(0, 0, 0, 1)
 
 [node name="CardCombatView" type="MarginContainer"]
 offset_right = 354.0
@@ -14,6 +20,7 @@ script = ExtResource("1_4wd61")
 centered = false
 
 [node name="Border" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_4jd34")
 texture = ExtResource("2_aa80t")
 centered = false
 
@@ -44,35 +51,8 @@ layout_mode = 2
 centered = false
 
 [node name="MidSectionEmptySpace" type="MarginContainer" parent="CardBars"]
-custom_minimum_size = Vector2(2.08165e-12, 200)
+custom_minimum_size = Vector2(0, 300)
 layout_mode = 2
-
-[node name="Skill3" type="RichTextLabel" parent="CardBars"]
-custom_minimum_size = Vector2(200, 25)
-layout_mode = 2
-size_flags_horizontal = 8
-theme_override_constants/outline_size = 6
-bbcode_enabled = true
-text = "[right][color=#000000]PLACEHOLDER 3[/color][/right]"
-scroll_active = false
-
-[node name="Skill2" type="RichTextLabel" parent="CardBars"]
-custom_minimum_size = Vector2(200, 25)
-layout_mode = 2
-size_flags_horizontal = 8
-theme_override_constants/outline_size = 6
-bbcode_enabled = true
-text = "[right][color=#000000]PLACEHOLDER 2[/color][/right]"
-scroll_active = false
-
-[node name="Skill1" type="RichTextLabel" parent="CardBars"]
-custom_minimum_size = Vector2(200, 25)
-layout_mode = 2
-size_flags_horizontal = 8
-theme_override_constants/outline_size = 6
-bbcode_enabled = true
-text = "[right][color=#000000]PLACEHOLDER 1[/color][/right]"
-scroll_active = false
 
 [node name="ATKRow" type="HBoxContainer" parent="CardBars"]
 custom_minimum_size = Vector2(0, 50)
@@ -144,3 +124,6 @@ size_flags_horizontal = 0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 6
 theme_override_font_sizes/font_size = 18
+
+[node name="ActionText" type="Label" parent="."]
+layout_mode = 2

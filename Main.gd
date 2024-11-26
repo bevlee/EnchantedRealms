@@ -12,7 +12,7 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	pass
 	
 
@@ -33,7 +33,7 @@ func start_battle():
 	print(combat_ui)
 	combat_ui.backToMainMenu.connect(_on_combat_ui_back_to_main_menu)
 	#Connect a signal from a node within the instantiated scene
-	var back_button = combat_ui.get_node("BackButton")
+	var _back_button = combat_ui.get_node("BackButton")
 	
 	combat_ui.start()
 	

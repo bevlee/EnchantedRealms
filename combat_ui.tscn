@@ -134,10 +134,6 @@ text = "Player1
 
 "
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="Deck" type="Node2D" parent="."]
-
 [node name="BackButton" type="Button" parent="."]
 offset_left = 1078.0
 offset_top = 651.0
@@ -179,7 +175,7 @@ offset_bottom = 340.0
 theme_override_font_sizes/font_size = 25
 text = "Turn: 1"
 
-[node name="Player1HP" type="Node2D" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 
 [connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]
 [connection signal="pressed" from="NextTurnButton" to="." method="_on_next_turn_button_pressed"]

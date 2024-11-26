@@ -49,26 +49,28 @@ func load_card(cardName, level):
 		$CardArea/CardBars/TopBar/MidSection/MarginContainer/Star.add_child(starSprite)
 	
 	# Set Skills
-	$CardArea/CardBars/Skill1.text = "[right][color=#000000]" + cardInfo[4] + " [img]" + skillDatabase.DATA[cardInfo[4]][1] + "[/img]    [/color][/right]"
-	$CardArea/CardBars/Skill2.text = "[right][color=#000000]" + cardInfo[5] + " [img]" + skillDatabase.DATA[cardInfo[5]][1] + "[/img]    [/color][/right]"
-	$CardArea/CardBars/Skill3.text = "[right][color=#000000]" + cardInfo[6] + " [img]" + skillDatabase.DATA[cardInfo[6]][1] + "[/img]    [/color][/right]"
-	
+	$CardArea/CardBars/MarginContainer/VBoxContainer/SkillContainer/Skill3.text = "[right][color=#000000]" + cardInfo[4] + " [img]" + skillDatabase.DATA[cardInfo[4]]["icon_path"] + "[/img]    [/color][/right]"
+	$CardArea/CardBars/MarginContainer/VBoxContainer/SkillContainer/Skill2.text = "[right][color=#000000]" + cardInfo[5] + " [img]" + skillDatabase.DATA[cardInfo[5]]["icon_path"] + "[/img]    [/color][/right]"
+	$CardArea/CardBars/MarginContainer/VBoxContainer/SkillContainer/Skill1.text = "[right][color=#000000]" + cardInfo[6] + " [img]" + skillDatabase.DATA[cardInfo[6]]["icon_path"] + "[/img]    [/color][/right]"
+	#$CardArea/CardBars/Skill1.text = cardInfo[4] + "skillDatabase.DATA[cardInfo[4]][1] "
+	#$CardArea/CardBars/Skill2.text =  cardInfo[5] + "skillDatabase.DATA[cardInfo[5]][1]"
+	#$CardArea/CardBars/Skill3.text = cardInfo[4]
 	# Set Cost
 	var cost = cardInfo[2]
 	$CardArea/CardBars/TopBar/MarginContainer/Cost.text = str(cost)
 	
 	# Set Level
-	$CardArea/CardBars/LvHPRow/Level/LevelLabel.text = str(level)
+	$CardArea/CardBars/MarginContainer/VBoxContainer/LvHPRow/Level/LevelLabel.text = str(level)
 	
 	# Set ATK
 	var atk = cardInfo[8] + cardInfo[11]*level
-	$CardArea/CardBars/ATKWeightRow/ATK/ATKLabel.text = "          " + str(atk)
+	$CardArea/CardBars/MarginContainer/VBoxContainer/ATKWeightRow/ATK/ATKLabel.text = "          " + str(atk)
 	
 	# Set Wait
 	var wait = cardInfo[3]
-	$CardArea/CardBars/ATKWeightRow/WaitTime/WaitLabel.text = "  " + str(wait)
+	$CardArea/CardBars/MarginContainer/VBoxContainer/ATKWeightRow/WaitTime/WaitLabel.text = "  " + str(wait)
 	
 	# Set hp
 	var hp = cardInfo[9] + cardInfo[12]*level
-	$CardArea/CardBars/LvHPRow/HP/HPLabel.text = "     " + str(hp)
+	$CardArea/CardBars/MarginContainer/VBoxContainer/LvHPRow/HP/HPLabel.text = "     " + str(hp)
 	
