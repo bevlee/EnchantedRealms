@@ -15,13 +15,22 @@ func _ready():
 	if cardName == null:
 		cardName = default_cardName
 	load_card(cardName, level)
-	$Border.modulate = Color(1,0,0,1)
-
+	
+	set_active()
+	await get_tree().create_timer(2).timeout
+	set_inactive()
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	pass
 	
-
+func set_active():
+	print("active")
+	$Border.material.set_shader_parameter("outline_color", Color(255,0,0,1)) 
+	
+func set_inactive():
+	
+	print("inactive")
+	$Border.material.set_shader_parameter("outline_color", Color(0,0,0,1)) 
 
 func load_card(cardName,  level):
 	var cardInfo = cardDatabase.DATA[cardName]

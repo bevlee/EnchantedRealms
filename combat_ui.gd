@@ -53,17 +53,15 @@ enum phases {
 var state
 var currentCardPosition = 0
 
-
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	hide()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	var card
-	var cardSkills
+#func _process(delta):
+	#var card
+	#var cardSkills
 
 func _input(event):
 	pass
@@ -77,7 +75,6 @@ func shuffle_deck(cardList):
 		var tempValue = cardList[randomIndex]
 		cardList[randomIndex] = cardList[i]
 		cardList[i] = tempValue
-	
 	
 func playCards():
 	var card_pos
@@ -187,18 +184,17 @@ func action_phase():
 		for skill in cardSkills:
 			use_skill(skill) 
 		
-		## TODO impleement skills for active (look into reaction/defensive later)
+		## TODO implement skills for active (look into reaction/defensive later)
 		print(cardSkills)
 		#attack
 		basic_attack(card, currentCardPosition)
 	state = phases.end_phase
-
 	
 func basic_attack(card, position):
 	card.cardAtk = 9999
 	#card.material.set_shader_parameter("outline_color", Color(255, 0.0, 0.0, 1.0))
 	
-	await get_tree().create_timer(1).timeout
+	await get_tree().create_timer(10).timeout
 	if has_opposing_card(position):
 		opponent_battlefield_cards[position].cardHP -= card.cardAtk
 	else:
@@ -206,6 +202,8 @@ func basic_attack(card, position):
 		for i in range(card.cardAtk):
 			opponentHeroHP -= 1
 			$NinePatchRect/Player2Profile/HPLabel.text = str(opponentHeroHP)
+			#await get_tree().create_timer(1).timeout
+	print("opponent hp is lower" + str(opponentHeroHP))
 	
 	#card.material.set_shader_parameter("outline_color", Color(0, 0.0, 0.0, 1.0))
 	
