@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://6hbj7cg7i32" path="res://Assets/Cards/Misc/LevelBackground.png" id="3_w4skc"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4jd34"]
+resource_local_to_scene = true
 shader = ExtResource("2_oqfop")
 shader_parameter/outline_width = 1.0
 shader_parameter/outline_color = Color(0, 0, 0, 1)
@@ -78,7 +79,8 @@ layout_mode = 2
 size_flags_horizontal = 0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 6
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 30
+text = "1000"
 
 [node name="LvHPRow" type="HBoxContainer" parent="CardBars"]
 layout_mode = 2
@@ -123,7 +125,8 @@ layout_mode = 2
 size_flags_horizontal = 0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 6
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 30
+text = "1000"
 
 [node name="ActionText" type="Label" parent="."]
 layout_mode = 2

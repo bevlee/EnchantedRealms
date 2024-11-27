@@ -179,32 +179,36 @@ func action_phase():
 	print("player has" + str(player_battlefield_cards.size()) + "cards on the field")
 	for currentCardPosition in range(player_battlefield_cards.size()):
 		card = player_battlefield_cards[currentCardPosition]
+		print("card is " + card.cardName)
+		print(card.get_children())
 		# perform card skill
 		cardSkills = card.get_skills()
 		for skill in cardSkills:
-			use_skill(skill) 
+			use_skill(skill)
 		
 		## TODO implement skills for active (look into reaction/defensive later)
-		print(cardSkills)
+		#print(cardSkills)
 		#attack
 		basic_attack(card, currentCardPosition)
+		await card.take_action("basic attack")
+		
+		
+		
 	state = phases.end_phase
 	
-func basic_attack(card, position):
-	card.cardAtk = 9999
-	#card.material.set_shader_parameter("outline_color", Color(255, 0.0, 0.0, 1.0))
 	
-	await get_tree().create_timer(10).timeout
+func basic_attack(card, position):
+	#card.material.set_shader_parameter("outline_color", Color(255, 0.0, 0.0, 1.0))
 	if has_opposing_card(position):
 		opponent_battlefield_cards[position].cardHP -= card.cardAtk
 	else:
 		#opponentHeroHP -= card.cardAtk
-		for i in range(card.cardAtk):
-			opponentHeroHP -= 1
-			$NinePatchRect/Player2Profile/HPLabel.text = str(opponentHeroHP)
+		opponentHeroHP -= card.cardAtk
+		$NinePatchRect/Player2Profile/HPLabel.text = str(opponentHeroHP)
 			#await get_tree().create_timer(1).timeout
 	print("opponent hp is lower" + str(opponentHeroHP))
 	
+	#await get_tree().create_timer(1).timeout
 	#card.material.set_shader_parameter("outline_color", Color(0, 0.0, 0.0, 1.0))
 	
 	
@@ -221,6 +225,7 @@ func use_skill(skill) -> void:
 			
 func end_phase():
 	print("end phase")
+	$NextTurnButton.disabled = false
 	
 func has_opposing_card(position):
 	if len(opponent_battlefield_cards) > position and opponent_battlefield_cards[position] != "":
@@ -228,6 +233,7 @@ func has_opposing_card(position):
 	return false
 	
 func _on_next_turn_button_pressed():
+	$NextTurnButton.disabled = true
 	pre_draw_phase()
 	draw_phase()
 	play_card_phase()
