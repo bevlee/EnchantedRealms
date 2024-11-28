@@ -1,4 +1,7 @@
 extends MarginContainer
+
+class_name Card
+
 signal dead
 
 @onready var cardDatabase = load("res://CardsDatabase.gd")
@@ -6,6 +9,8 @@ signal dead
 @onready var hp_label: Label = $CardBars/LvHPRow/HP/HPLabel
 @onready var atk_label: Label = $CardBars/ATKRow/ATK/ATKLabel
 
+var skillsDatabase = preload("res://SkillsDatabase.gd")
+var passive_skills = skillsDatabase.PASSIVE_SKILLS
 
 var default_cardName = "Footman"
 var cardName
@@ -37,7 +42,8 @@ var cardHP :
 var skill1
 var skill2
 var skill3
-
+# buffs and debuffs
+var applied_effects: Dictionary
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -63,12 +69,13 @@ func take_action(action: String)-> void:
 	$ActionText.visible=false
 	set_inactive()
 	print("finishing action for card" + cardName)
+	
 func set_active():
 	$Border.material.set_shader_parameter("outline_color", Color(255,0,0,1)) 
 	
 func set_inactive():
 	
-	$Border.material.set_shader_parameter("outline_color", Color(0,0,0,1)) 
+	$Border.material.set_shader_parameter("outline_color", Color(1,1,1,1)) 
 
 func load_card(cardName,  level):
 	var cardInfo = cardDatabase.DATA[cardName]
@@ -107,3 +114,44 @@ func load_card(cardName,  level):
 func get_skills() ->  Array:
 	return [skill1, skill2, skill3]
 
+func modify(source: Object, effect_type: String, hp_change: int = 0, atk_change: int = 0, add_effect: String = "", remove_effect: String = "", effect_duration = 0):
+	var modified_hp_change = hp_change
+	match effect_type:
+		"physical":
+			for skill in get_skills():
+				if skill in passive_skills:
+					match skill: 
+						"Defender":
+							modified_hp_change = modified_hp_change / 2 
+						"Dodge":
+							# 50% chance to dodge it
+							if randf() < 0.5:
+								modified_hp_change = 0
+		"buff", "debuff":
+			if add_effect != "":
+				if add_effect in applied_effects:
+					applied_effects[add_effect].duration += effect_duration
+				else:
+					applied_effects[add_effect] = { 
+						"duration": effect_duration,
+						"hp_change": hp_change,
+						"atk_change": atk_change
+					}
+			elif remove_effect != "":
+				var res = applied_effects.erase(remove_effect)
+				print(remove_effect + " was removed: " + str(res))
+	if modified_hp_change != 0:
+		cardHP -= modified_hp_change
+		
+func tick():
+	for key in applied_effects:
+		var duration = applied_effects[key]
+		if duration <= 0:
+			remove_effect(key)
+			
+func remove_effect(key: String):
+	cardAtk += applied_effects[key]["atk_change"]
+	cardHP += applied_effects[key]["hp_change"]
+	applied_effects.erase(key)
+	
+		

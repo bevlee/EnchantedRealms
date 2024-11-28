@@ -1,5 +1,5 @@
 # Description, IconPath
-const DATA: Dictionary = {
+const SKILL_DATA: Dictionary = {
 	"Earth Shatter 4" : {
 		"name": "Earth Shatter 4",
 		"description": "shattering",
@@ -36,4 +36,20 @@ const DATA: Dictionary = {
 		"icon_path": "res://Assets/Cards/SkillIcons/Attack.png",
 		"skill_type": "active"
 	},
+}
+
+const ACTIVE_SKILLS: Dictionary = {
+	"Earth Shatter 4" : null,
+	"Berserk" : null,
+	"Tactical Retreat" : null,
+	"Heal" : null,
+	"Volley" : null,
+}
+
+const PASSIVE_SKILLS: Dictionary = {
+	"Earth Shatter 4" : null,
+	"Berserk" : null,
+	"Tactical Retreat" : null,
+	"Heal" : null,
+	"Volley" : null,
 }

@@ -49,9 +49,9 @@ func load_card(cardName, level):
 		$CardArea/CardBars/TopBar/MidSection/MarginContainer/Star.add_child(starSprite)
 	
 	# Set Skills
-	$CardArea/CardBars/MarginContainer/VBoxContainer/SkillContainer/Skill3.text = "[right][color=#000000]" + cardInfo[4] + " [img]" + skillDatabase.DATA[cardInfo[4]]["icon_path"] + "[/img]    [/color][/right]"
-	$CardArea/CardBars/MarginContainer/VBoxContainer/SkillContainer/Skill2.text = "[right][color=#000000]" + cardInfo[5] + " [img]" + skillDatabase.DATA[cardInfo[5]]["icon_path"] + "[/img]    [/color][/right]"
-	$CardArea/CardBars/MarginContainer/VBoxContainer/SkillContainer/Skill1.text = "[right][color=#000000]" + cardInfo[6] + " [img]" + skillDatabase.DATA[cardInfo[6]]["icon_path"] + "[/img]    [/color][/right]"
+	#$CardArea/CardBars/MarginContainer/VBoxContainer/SkillContainer/Skill3.text = "[right][color=#000000]" + cardInfo[4] + " [img]" + skillDatabase.DATA[cardInfo[4]]["icon_path"] + "[/img]    [/color][/right]"
+	#$CardArea/CardBars/MarginContainer/VBoxContainer/SkillContainer/Skill2.text = "[right][color=#000000]" + cardInfo[5] + " [img]" + skillDatabase.DATA[cardInfo[5]]["icon_path"] + "[/img]    [/color][/right]"
+	#$CardArea/CardBars/MarginContainer/VBoxContainer/SkillContainer/Skill1.text = "[right][color=#000000]" + cardInfo[6] + " [img]" + skillDatabase.DATA[cardInfo[6]]["icon_path"] + "[/img]    [/color][/right]"
 	#$CardArea/CardBars/Skill1.text = cardInfo[4] + "skillDatabase.DATA[cardInfo[4]][1] "
 	#$CardArea/CardBars/Skill2.text =  cardInfo[5] + "skillDatabase.DATA[cardInfo[5]][1]"
 	#$CardArea/CardBars/Skill3.text = cardInfo[4]

@@ -8,7 +8,8 @@ const combatCardSize = Vector2(160,220)
 var handCardBase = preload("res://card_hand_view.tscn")
 var detailCardBase = preload("res://card_detail_view.tscn")
 var combatCardBase = preload("res://card_combat_view.tscn")
-var skillsDatabase = preload("res://SkillsDatabase.gd").DATA
+var skillsDatabase = preload("res://SkillsDatabase.gd")
+var active_skills = skillsDatabase.ACTIVE_SKILLS
 
 var detailedCardView
 var opponentDeck = []
@@ -184,12 +185,13 @@ func action_phase():
 		# perform card skill
 		cardSkills = card.get_skills()
 		for skill in cardSkills:
-			use_skill(skill)
+			if skill in active_skills:
+				await use_skill(card, currentCardPosition, skill)
 		
 		## TODO implement skills for active (look into reaction/defensive later)
 		#print(cardSkills)
 		#attack
-		basic_attack(card, currentCardPosition)
+		await basic_attack(card, currentCardPosition)
 		await card.take_action("basic attack")
 		
 		
@@ -200,7 +202,7 @@ func action_phase():
 func basic_attack(card, position):
 	#card.material.set_shader_parameter("outline_color", Color(255, 0.0, 0.0, 1.0))
 	if has_opposing_card(position):
-		opponent_battlefield_cards[position].cardHP -= card.cardAtk
+		modify_entity(card, opponent_battlefield_cards[position], "physical", -card.cardAtk, 0, "", "", 0)
 	else:
 		#opponentHeroHP -= card.cardAtk
 		opponentHeroHP -= card.cardAtk
@@ -212,20 +214,31 @@ func basic_attack(card, position):
 	#card.material.set_shader_parameter("outline_color", Color(0, 0.0, 0.0, 1.0))
 	
 	
-func use_skill(skill) -> void:
-	match skill:
-		"snipe_2":
+func use_skill(card, card_position: int, skill_name: String) -> void:
+	match skill_name:
+		"Snipe_2":
 			var card_with_lowest_hp
 			var lowest_hp: int = 100000
-			for card in opponent_battlefield_cards:
-				if card.cardHP < lowest_hp:
-					lowest_hp = card.cardHP
-					card_with_lowest_hp = card
-			card_with_lowest_hp.cardHP
-			
+			for opponent_card in opponent_battlefield_cards:
+				if opponent_card.cardHP < lowest_hp:
+					lowest_hp = opponent_card.cardHP
+					card_with_lowest_hp = opponent_card
+			modify_entity(card, card_with_lowest_hp, "physical", -200, 0, "", "")
+		"Berserk":
+			card.modify(card, "buff", 0, card.cardAtk, "", "", 1)
+# turns end in the end phase of each players action
+func modify_entity(source: Object, target: Object, effect_type: String, hp_change: int = 0, atk_change: int = 0, add_effect: String = "", remove_effect: String = "", effect_duration=0):
+	# if the target is a card
+	if target is Card:
+		target.modify(source, effect_type, hp_change, atk_change, add_effect, remove_effect)
+	
+
 func end_phase():
 	print("end phase")
 	$NextTurnButton.disabled = false
+	for card in player_battlefield_cards + opponent_battlefield_cards:
+		card.tick()
+	
 	
 func has_opposing_card(position):
 	if len(opponent_battlefield_cards) > position and opponent_battlefield_cards[position] != "":
