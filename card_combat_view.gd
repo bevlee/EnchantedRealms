@@ -54,9 +54,11 @@ func take_action(action: String)-> void:
 	set_active()
 	$ActionText.text = action
 	var tween = create_tween()
-	$ActionText.position=Vector2(100,225)
+	$ActionText.position=Vector2(0,225)
 	$ActionText.visible=true
-	tween.tween_property($ActionText, "position", Vector2(100,-100), 2.0)
+	$ActionText.modulate=Color(1,1,1,1)
+	tween.tween_property($ActionText, "position", Vector2(0,-100), 1.0)
+	tween.tween_property($ActionText, "modulate", Color(1,1,1,0), 0.5)
 	await tween.finished
 	$ActionText.visible=false
 	set_inactive()

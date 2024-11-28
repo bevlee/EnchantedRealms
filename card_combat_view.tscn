@@ -130,3 +130,5 @@ text = "1000"
 
 [node name="ActionText" type="Label" parent="."]
 layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 50
