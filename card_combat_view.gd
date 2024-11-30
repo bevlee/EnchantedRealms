@@ -75,7 +75,7 @@ func set_active():
 	
 func set_inactive():
 	
-	$Border.material.set_shader_parameter("outline_color", Color(1,1,1,1)) 
+	$Border.material.set_shader_parameter("outline_color", Color(0,0,0,1)) 
 
 func load_card(cardName,  level):
 	var cardInfo = cardDatabase.DATA[cardName]

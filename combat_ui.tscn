@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://3mwjmqustnpk"]
+[gd_scene load_steps=8 format=3 uid="uid://3mwjmqustnpk"]
 
 [ext_resource type="Script" path="res://combat_ui.gd" id="1_angt7"]
 [ext_resource type="Texture2D" uid="uid://bqf5yi35ykihx" path="res://Assets/Background/majestic-mountain-peak-space-fantasy-generated-by-ai_188544-24724.jpg" id="2_lnffm"]
 [ext_resource type="Texture2D" uid="uid://d100whwhug23x" path="res://Assets/Cards/Borders/Back_Texture.png" id="3_6d5ls"]
 [ext_resource type="Script" path="res://Player.gd" id="5_clcei"]
 [ext_resource type="PackedScene" uid="uid://rd3v4m4jrx63" path="res://card_combat_view.tscn" id="5_snqwc"]
+[ext_resource type="Texture2D" uid="uid://bwkckcamsn3ak" path="res://Assets/GUI/arrow_octagon.png" id="7_bvlgs"]
 [ext_resource type="PackedScene" uid="uid://d30ttbjyojxbn" path="res://card_hand_view.tscn" id="7_cepwt"]
 
 [node name="CombatUI" type="Node2D"]
@@ -19,14 +20,14 @@ centered = false
 [node name="Player1Hand" type="Node2D" parent="."]
 script = ExtResource("5_clcei")
 
-[node name="NinePatchRect" type="NinePatchRect" parent="."]
+[node name="MainArea" type="NinePatchRect" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Player2Hand" type="Panel" parent="NinePatchRect"]
+[node name="Player2Hand" type="Panel" parent="MainArea"]
 custom_minimum_size = Vector2(500, 100)
 layout_mode = 0
 offset_left = 212.0
@@ -34,9 +35,9 @@ offset_top = 41.0
 offset_right = 712.0
 offset_bottom = 141.0
 
-[node name="Cards" type="Sprite2D" parent="NinePatchRect/Player2Hand" groups=["cardsInHand"]]
+[node name="Cards" type="Sprite2D" parent="MainArea/Player2Hand" groups=["cardsInHand"]]
 
-[node name="Player1Hand" type="Panel" parent="NinePatchRect"]
+[node name="Player1Hand" type="Panel" parent="MainArea"]
 custom_minimum_size = Vector2(500, 100)
 layout_mode = 0
 offset_left = 211.0
@@ -44,19 +45,19 @@ offset_top = 581.0
 offset_right = 711.0
 offset_bottom = 681.0
 
-[node name="Cards" type="Sprite2D" parent="NinePatchRect/Player1Hand" groups=["cardsInHand"]]
+[node name="Cards" type="Sprite2D" parent="MainArea/Player1Hand" groups=["cardsInHand"]]
 centered = false
 
-[node name="Player1Icon" type="Sprite2D" parent="NinePatchRect"]
+[node name="Player1Icon" type="Sprite2D" parent="MainArea"]
 
-[node name="Player2Icon" type="Sprite2D" parent="NinePatchRect"]
+[node name="Player2Icon" type="Sprite2D" parent="MainArea"]
 
-[node name="Player1Deck" type="Sprite2D" parent="NinePatchRect"]
+[node name="Player1Deck" type="Sprite2D" parent="MainArea"]
 position = Vector2(98, 672.25)
 scale = Vector2(2.35, 1.95536)
 texture = ExtResource("3_6d5ls")
 
-[node name="BattleField" type="ColorRect" parent="NinePatchRect"]
+[node name="BattleField" type="ColorRect" parent="MainArea"]
 layout_mode = 0
 offset_left = 212.0
 offset_top = 142.0
@@ -64,29 +65,29 @@ offset_right = 1082.0
 offset_bottom = 582.0
 color = Color(0.266667, 0.266667, 0.270588, 0.65098)
 
-[node name="Player2BattleArea" type="MarginContainer" parent="NinePatchRect/BattleField"]
+[node name="Player2BattleArea" type="MarginContainer" parent="MainArea/BattleField"]
 layout_mode = 2
 offset_right = 870.0
 offset_bottom = 220.0
 
-[node name="Cards" type="Sprite2D" parent="NinePatchRect/BattleField/Player2BattleArea"]
+[node name="Cards" type="Sprite2D" parent="MainArea/BattleField/Player2BattleArea"]
 
-[node name="Player1BattleArea" type="MarginContainer" parent="NinePatchRect/BattleField"]
+[node name="Player1BattleArea" type="MarginContainer" parent="MainArea/BattleField"]
 layout_mode = 2
 offset_top = 221.0
 offset_right = 870.0
 offset_bottom = 441.0
 
-[node name="Cards" type="Sprite2D" parent="NinePatchRect/BattleField/Player1BattleArea"]
+[node name="Cards" type="Sprite2D" parent="MainArea/BattleField/Player1BattleArea"]
 
-[node name="Player2Profile" type="Panel" parent="NinePatchRect"]
+[node name="Player2Profile" type="Panel" parent="MainArea"]
 layout_mode = 0
 offset_left = 12.0
 offset_top = 40.0
 offset_right = 206.0
 offset_bottom = 298.0
 
-[node name="HPLabel" type="Label" parent="NinePatchRect/Player2Profile"]
+[node name="HPLabel" type="Label" parent="MainArea/Player2Profile"]
 layout_mode = 0
 offset_left = 23.0
 offset_top = 192.0
@@ -96,7 +97,7 @@ theme_override_font_sizes/font_size = 30
 text = "HP: 9000
 "
 
-[node name="usernameLabel" type="Label" parent="NinePatchRect/Player2Profile"]
+[node name="usernameLabel" type="Label" parent="MainArea/Player2Profile"]
 layout_mode = 0
 offset_left = 32.0
 offset_top = 21.0
@@ -106,14 +107,14 @@ theme_override_font_sizes/font_size = 30
 text = "Player2
 "
 
-[node name="Player1Profile" type="Panel" parent="NinePatchRect"]
+[node name="Player1Profile" type="Panel" parent="MainArea"]
 layout_mode = 0
 offset_left = 15.0
 offset_top = 366.0
 offset_right = 212.0
 offset_bottom = 655.0
 
-[node name="HPLabel" type="Label" parent="NinePatchRect/Player1Profile"]
+[node name="HPLabel" type="Label" parent="MainArea/Player1Profile"]
 layout_mode = 0
 offset_left = 19.0
 offset_top = 11.0
@@ -123,7 +124,7 @@ theme_override_font_sizes/font_size = 30
 text = "HP: 9000
 "
 
-[node name="usernameLabel" type="Label" parent="NinePatchRect/Player1Profile"]
+[node name="usernameLabel" type="Label" parent="MainArea/Player1Profile"]
 layout_mode = 0
 offset_left = 30.0
 offset_top = 190.0
@@ -176,6 +177,10 @@ theme_override_font_sizes/font_size = 25
 text = "Turn: 1"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="TurnPointer" type="Sprite2D" parent="."]
+position = Vector2(134, 331)
+texture = ExtResource("7_bvlgs")
 
 [connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]
 [connection signal="pressed" from="NextTurnButton" to="." method="_on_next_turn_button_pressed"]

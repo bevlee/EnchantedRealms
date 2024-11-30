@@ -12,14 +12,30 @@ var skillsDatabase = preload("res://SkillsDatabase.gd")
 var active_skills = skillsDatabase.ACTIVE_SKILLS
 
 var detailedCardView
-var opponentDeck = []
-var opponentQueuedCards = []
-var opponentHeroHP = 9000
-var playerHeroHP = 9000
-var playerQueuedCards = []
-var playerDeck = []
-var player_battlefield_cards = []
-var opponent_battlefield_cards = []
+
+var active_player = 0
+var players = [
+	#Player 1
+	{
+		"hero_hp": 9000,
+		"queued_cards": [],
+		"deck": [],
+		"hand": []
+	},
+	#Player 2
+	{
+		"hero_hp": 9000,
+		"queued_cards": [],
+		"deck": [],
+		"hand": []
+	}
+]
+var battlefield_cards = [
+	#Player 1
+	[],
+	#Player 2
+	[]
+]
 
 # general settings
 var auto_combat = true
@@ -27,17 +43,6 @@ var turn = 0
 const MAX_HAND_SIZE = 5
 const MAX_TURN_COUNT = 1000
 
-# Track hand
-var opponentHand = []
-var playerHand = []
-
-# Track battlefield
-
-# Action queue
-# A quieue represnets all the actions in a players turn. How do i manage the effects of opponents cards in the queue?
-#var queue = new Queue()
-var queue = []
-#
 #track the current
 enum phases {
 	# all hand cards decrease their wait timer by 1
@@ -77,27 +82,31 @@ func shuffle_deck(cardList):
 		cardList[randomIndex] = cardList[i]
 		cardList[i] = tempValue
 	
-func playCards():
+func play_cards():
 	var card_pos
 	var card
 	var cards_played = 0
-	while len(playerQueuedCards) > 0:
+	var queued_cards = players[active_player]["queued_cards"]
+	while len(queued_cards) > 0:
 		print("playerqueued cards are: ")
-		print(playerQueuedCards)
-		card_pos = playerQueuedCards.pop_front()
-		card = playerHand[card_pos]
-		move_card(card.cardName, "hand", "battlefield", card_pos)
+		print(queued_cards)
+		card_pos = queued_cards.pop_front()
+		card = players[active_player]["hand"][card_pos]
+		move_card(card.cardName, "player" + str(active_player + 1) + "_hand", "battlefield", card_pos)
 		
 		var combat_card = combatCardBase.instantiate()
 		combat_card.cardName = card.cardName
 		combat_card.level = card.level
-		
-		combat_card.position = $NinePatchRect/BattleField/Player1BattleArea/Cards.position
+		var player_cards_path = "MainArea/BattleField/Player" + str(active_player+1) + "BattleArea/Cards"
+		var player_battlefield_cards_parent_scene = get_node(player_cards_path)
+		# base position for cards on battlefield for this player
+		combat_card.position = player_battlefield_cards_parent_scene.position
+		var player_battlefield_cards = battlefield_cards[active_player]
 		combat_card.position.x += 160 * len(player_battlefield_cards)
 		
 		combat_card.scale *= combatCardSize / combat_card.size
 		
-		$NinePatchRect/BattleField/Player1BattleArea/Cards.add_child(combat_card)
+		player_battlefield_cards_parent_scene.add_child(combat_card)
 		player_battlefield_cards.push_back(combat_card)
 		var playerbattlefieldCardNames = []
 		for battlefield_card in player_battlefield_cards:
@@ -106,77 +115,101 @@ func playCards():
 		print( playerbattlefieldCardNames)
 		cards_played += 1
 		
-# needs to be fixed, we =dont want updates when cards go to graveyard until end of turn
+# needs to be fixed, we dont want updates when cards go to graveyard until end of turn
 func rerender(location):
-	if location == "hand":
-		for i in range(len(playerHand)):
-			playerHand[i].position = $NinePatchRect/Player1Hand/Cards.position
-			playerHand[i].position.x += 100*i
-
-
+	if location == "player1_hand":
+		var hand_cards = $MainArea/Player1Hand/Cards
+		for i in range(len(players[active_player]["hand"])):
+			players[active_player]["hand"][i].position = hand_cards.position
+			players[active_player]["hand"][i].position.x += 100*i
+	
+	if location == "player2_hand":
+		var hand_cards = $MainArea/Player2Hand/Cards
+		for i in range(len(players[active_player]["hand"])):
+			players[active_player]["hand"][i].position = hand_cards.position
+			players[active_player]["hand"][i].position.x += 100*i
 
 func update_queued_cards(position):
-	for i in range(len(playerQueuedCards)):
-		if playerQueuedCards[i] > position:
-			playerQueuedCards[i] -= 1 
+	var queued_cards = players[active_player]["queued_cards"]
+	for i in range(len(queued_cards)):
+		if queued_cards[i] > position:
+			queued_cards[i] -= 1
 
-func move_card(cardName, location, destination, position):
-	print("moving card" + cardName + "from " + location +  "in position " + str(position) + " to " + destination)
-	if (location == "hand"):
-		playerHand[position].queue_free()
-		playerHand.remove_at(position)
+func move_card(cardName, src, destination, position):
+	print("moving card" + cardName + "from " + src +  "in position " + str(position) + " to " + destination)
+	if (src == "player1_hand"):
+		players[0]["hand"][position].queue_free()
+		players[0]["hand"].remove_at(position)
 		update_queued_cards(position)
+	if (src == "player2_hand"):
+		players[1]["hand"][position].queue_free()
+		players[1]["hand"].remove_at(position)
+		update_queued_cards(position)
+		
+	if (src == "player1_battlefield"):
+		battlefield_cards[0]["hand"][position].queue_free()
+		battlefield_cards[0]["hand"].remove_at(position)
+	if (src == "player2_battlefield"):
+		battlefield_cards[1]["hand"][position].queue_free()
+		battlefield_cards[1]["hand"].remove_at(position)
 	print("player hand after moving")
-	print(playerHand)
+	print(players[active_player]["hand"])
 	
-	rerender(location)
+	rerender(src)
 	rerender(destination)
-	
+
+# 
 func pre_draw_phase():
-	turn = turn + 1
-	$TurnLabel.text = "Turn: " + str(turn)
-	var handCards = $NinePatchRect/Player1Hand/Cards.get_children()
-	#decrease timer of cards in hand
-	for i in range(len(handCards)):
-		handCards[i].process_hand_turn()
+	var player1_cards_scene : Sprite2D = get_node("MainArea/Player1Hand/Cards") 
 	
+	var player2_cards_scene : Sprite2D = get_node("MainArea/Player2Hand/Cards") 
+	var hand_cards = player1_cards_scene.get_children() + player2_cards_scene.get_children()
+	# decrease timer of cards in hand
+	for i in range(len(hand_cards)):
+		hand_cards[i].process_hand_turn()
 
 func draw_phase():
-	if (len(playerHand) < MAX_HAND_SIZE):
-		var nextCard = draw(playerDeck)
+	var player_hand = players[active_player]["hand"]
+	var player_cards_scene : Sprite2D = get_node("MainArea/Player" + str(active_player + 1) + "Hand/Cards") 
+	if (len(player_hand) < MAX_HAND_SIZE):
+		var nextCard = draw(players[active_player]["deck"])
 		
 		if nextCard != null:
 			var newCard = handCardBase.instantiate()
 			newCard.cardName = nextCard
 			newCard.level = 2
 			
-			newCard.handPosition = len(playerHand)
-			newCard.position = $NinePatchRect/Player1Hand/Cards.position
-			newCard.position.x += 100*(len(playerHand))
+			newCard.handPosition = len(player_hand)
+			# put the new card in the next hand position
+			newCard.position = player_cards_scene.position
+			newCard.position.x += 100*(len(player_hand))
+			#scale the image to fit the hand area
 			newCard.scale *= handCardSize / newCard.size
-			#newCard.loadCard(nextCard, 2)
-			$NinePatchRect/Player1Hand/Cards.add_child(newCard)
+			
+			player_cards_scene.add_child(newCard)
+			
 			
 			newCard.ready_card.connect(_on_ready_card)
 			newCard.unready_card.connect(_on_unready_card)
 			newCard.view_card_detail.connect(_on_view_card_detail)
-			playerHand.push_back(newCard)
+			player_hand.push_back(newCard)
 			
 func play_card_phase():
-	var handCards = $NinePatchRect/Player1Hand/Cards.get_children()
+	var hand_cards : Array[Node] = get_node("MainArea/Player" + str(active_player + 1) + "Hand/Cards").get_children()
 	if (auto_combat):
-		for i in range(len(handCards)):
-			if handCards[i].current_wait_timer == 0:
-				playerQueuedCards.append(i)
-				print(handCards[i].cardName)
+		for i in range(len(hand_cards)):
+			if hand_cards[i].current_wait_timer == 0:
+				players[active_player]["queued_cards"].append(i)
+				print(hand_cards[i].cardName)
 	
-	if len(playerQueuedCards) > 0:
-		playCards()
+	if len(players[active_player]["queued_cards"]) > 0:
+		play_cards()
 
 func action_phase():
 	state = phases.action_phase
 	var card: Object
 	var cardSkills: Array
+	var player_battlefield_cards = battlefield_cards[active_player]
 	print("player has" + str(player_battlefield_cards.size()) + "cards on the field")
 	for currentCardPosition in range(player_battlefield_cards.size()):
 		card = player_battlefield_cards[currentCardPosition]
@@ -194,31 +227,28 @@ func action_phase():
 		await basic_attack(card, currentCardPosition)
 		await card.take_action("basic attack")
 		
-		
-		
 	state = phases.end_phase
 	
 	
 func basic_attack(card, position):
 	#card.material.set_shader_parameter("outline_color", Color(255, 0.0, 0.0, 1.0))
+	var other_player = 1 - active_player
 	if has_opposing_card(position):
-		modify_entity(card, opponent_battlefield_cards[position], "physical", -card.cardAtk, 0, "", "", 0)
+		modify_entity(card, battlefield_cards[other_player][position], "physical", -card.cardAtk, 0, "", "", 0)
 	else:
-		#opponentHeroHP -= card.cardAtk
-		opponentHeroHP -= card.cardAtk
-		$NinePatchRect/Player2Profile/HPLabel.text = str(opponentHeroHP)
-			#await get_tree().create_timer(1).timeout
-	print("opponent hp is lower" + str(opponentHeroHP))
-	
-	#await get_tree().create_timer(1).timeout
-	#card.material.set_shader_parameter("outline_color", Color(0, 0.0, 0.0, 1.0))
-	
+		var other_player_hp_label : Label = get_node("MainArea/Player" + str(other_player + 1) + "Profile/HPLabel")
+		players[other_player]["hero_hp"] -= card.cardAtk
+		other_player_hp_label.text = str(players[other_player]["hero_hp"])	
+		print("attacking hero")
 	
 func use_skill(card, card_position: int, skill_name: String) -> void:
 	match skill_name:
 		"Snipe_2":
+			var opponent_id = 1 - active_player
+			var opponent_battlefield_cards = battlefield_cards[opponent_id]
 			var card_with_lowest_hp
 			var lowest_hp: int = 100000
+			
 			for opponent_card in opponent_battlefield_cards:
 				if opponent_card.cardHP < lowest_hp:
 					lowest_hp = opponent_card.cardHP
@@ -226,37 +256,42 @@ func use_skill(card, card_position: int, skill_name: String) -> void:
 			modify_entity(card, card_with_lowest_hp, "physical", -200, 0, "", "")
 		"Berserk":
 			card.modify(card, "buff", 0, card.cardAtk, "", "", 1)
+			
 # turns end in the end phase of each players action
 func modify_entity(source: Object, target: Object, effect_type: String, hp_change: int = 0, atk_change: int = 0, add_effect: String = "", remove_effect: String = "", effect_duration=0):
 	# if the target is a card
 	if target is Card:
 		target.modify(source, effect_type, hp_change, atk_change, add_effect, remove_effect)
 	
-
 func end_phase():
 	print("end phase")
 	$NextTurnButton.disabled = false
-	for card in player_battlefield_cards + opponent_battlefield_cards:
+	for card in battlefield_cards[0] + battlefield_cards[1]:
 		card.tick()
 	
-	
 func has_opposing_card(position):
+	var opponent_id = 1 - active_player
+	var opponent_battlefield_cards = battlefield_cards[opponent_id]
 	if len(opponent_battlefield_cards) > position and opponent_battlefield_cards[position] != "":
 		return true
 	return false
 	
 func _on_next_turn_button_pressed():
 	$NextTurnButton.disabled = true
+	turn = turn + 1
+	$TurnLabel.text = "Turn: " + str(turn)
+	
+	# Player 1 is 0, Player 2 is 1
+	active_player = (turn + 1) % 2
+	if turn %2 ==0:
+		$TurnPointer.rotation = 0
+	else:
+		$TurnPointer.rotation_degrees = 180
 	pre_draw_phase()
 	draw_phase()
 	play_card_phase()
 	action_phase()
 	end_phase()
-	#var playerHandCardNames = []
-	#for card in playerHand:
-		#playerHandCardNames.append(card.cardName)
-	#print("hand cards: ")
-	#print( playerHandCardNames)
 
 
 func _on_view_card_detail(cardName, level):
@@ -270,32 +305,32 @@ func _on_view_card_detail(cardName, level):
 	detailedCardView.show()
 	var exit_button = detailedCardView.get_node("Background")
 	exit_button.leave_detailed_view.connect(_on_exit_view_card_detail)
-	#playerHand.push_back(detailedCardView)
+	#players[active_player]["hand"].push_back(detailedCardView)
 	
 func _on_exit_view_card_detail():
 	detailedCardView.queue_free()
 
 
 func _on_unready_card(cardName, level, handPosition):
+	var player_queued_cards = players[active_player]["queued_cards"]
 	var position
-	for i in range(len(playerQueuedCards)):
-		if (playerQueuedCards[i] == handPosition):
+	for i in range(len(player_queued_cards)):
+		if (player_queued_cards[i] == handPosition):
 			position = i
-	playerQueuedCards.remove_at(position)
+	player_queued_cards.remove_at(position)
 	
-func _on_ready_card(cardName, level, handPosition):
-	playerQueuedCards.append(handPosition)
+func _on_ready_card(cardName, level, hand_position):
+	players[active_player]["queued_cards"].append(hand_position)
 
 func start():
 	print("combatStarting")
 	show() 
-	playerDeck = Global.playerStateMachine.deck.duplicate(true)
-	shuffle_deck(playerDeck)
-	print(playerDeck)
+	players[active_player]["deck"] = Global.playerStateMachine.deck.duplicate(true)
+	shuffle_deck(players[active_player]["deck"])
+	print(players[active_player]["deck"])
 
 func finish():
 	hide()
-
 
 func _on_back_button_pressed():
 	backToMainMenu.emit()
