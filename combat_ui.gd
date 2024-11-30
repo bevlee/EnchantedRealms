@@ -92,12 +92,12 @@ func play_cards():
 		print(queued_cards)
 		card_pos = queued_cards.pop_front()
 		card = players[active_player]["hand"][card_pos]
-		move_card(card.cardName, "player" + str(active_player + 1) + "_hand", "battlefield", card_pos)
+		move_card(card.cardName, "player" + str(active_player) + "_hand", "battlefield", card_pos)
 		
 		var combat_card = combatCardBase.instantiate()
 		combat_card.cardName = card.cardName
 		combat_card.level = card.level
-		var player_cards_path = "MainArea/BattleField/Player" + str(active_player+1) + "BattleArea/Cards"
+		var player_cards_path = "MainArea/BattleField/Player" + str(active_player) + "BattleArea/Cards"
 		var player_battlefield_cards_parent_scene = get_node(player_cards_path)
 		# base position for cards on battlefield for this player
 		combat_card.position = player_battlefield_cards_parent_scene.position
@@ -117,14 +117,14 @@ func play_cards():
 		
 # needs to be fixed, we dont want updates when cards go to graveyard until end of turn
 func rerender(location):
-	if location == "player1_hand":
-		var hand_cards = $MainArea/Player1Hand/Cards
+	if location == "player0_hand":
+		var hand_cards = $MainArea/Player0Hand/Cards
 		for i in range(len(players[active_player]["hand"])):
 			players[active_player]["hand"][i].position = hand_cards.position
 			players[active_player]["hand"][i].position.x += 100*i
 	
-	if location == "player2_hand":
-		var hand_cards = $MainArea/Player2Hand/Cards
+	if location == "player1_hand":
+		var hand_cards = $MainArea/Player1Hand/Cards
 		for i in range(len(players[active_player]["hand"])):
 			players[active_player]["hand"][i].position = hand_cards.position
 			players[active_player]["hand"][i].position.x += 100*i
@@ -137,19 +137,19 @@ func update_queued_cards(position):
 
 func move_card(cardName, src, destination, position):
 	print("moving card" + cardName + "from " + src +  "in position " + str(position) + " to " + destination)
-	if (src == "player1_hand"):
+	if (src == "player0_hand"):
 		players[0]["hand"][position].queue_free()
 		players[0]["hand"].remove_at(position)
 		update_queued_cards(position)
-	if (src == "player2_hand"):
+	if (src == "player1_hand"):
 		players[1]["hand"][position].queue_free()
 		players[1]["hand"].remove_at(position)
 		update_queued_cards(position)
 		
-	if (src == "player1_battlefield"):
+	if (src == "player0_battlefield"):
 		battlefield_cards[0]["hand"][position].queue_free()
 		battlefield_cards[0]["hand"].remove_at(position)
-	if (src == "player2_battlefield"):
+	if (src == "player1_battlefield"):
 		battlefield_cards[1]["hand"][position].queue_free()
 		battlefield_cards[1]["hand"].remove_at(position)
 	print("player hand after moving")
@@ -160,17 +160,17 @@ func move_card(cardName, src, destination, position):
 
 # 
 func pre_draw_phase():
-	var player1_cards_scene : Sprite2D = get_node("MainArea/Player1Hand/Cards") 
+	var player0_cards_scene : Sprite2D = get_node("MainArea/Player0Hand/Cards") 
 	
-	var player2_cards_scene : Sprite2D = get_node("MainArea/Player2Hand/Cards") 
-	var hand_cards = player1_cards_scene.get_children() + player2_cards_scene.get_children()
+	var player1_cards_scene : Sprite2D = get_node("MainArea/Player1Hand/Cards") 
+	var hand_cards = player0_cards_scene.get_children() + player1_cards_scene.get_children()
 	# decrease timer of cards in hand
 	for i in range(len(hand_cards)):
 		hand_cards[i].process_hand_turn()
 
 func draw_phase():
 	var player_hand = players[active_player]["hand"]
-	var player_cards_scene : Sprite2D = get_node("MainArea/Player" + str(active_player + 1) + "Hand/Cards") 
+	var player_cards_scene : Sprite2D = get_node("MainArea/Player" + str(active_player) + "Hand/Cards") 
 	if (len(player_hand) < MAX_HAND_SIZE):
 		var nextCard = draw(players[active_player]["deck"])
 		
@@ -195,7 +195,7 @@ func draw_phase():
 			player_hand.push_back(newCard)
 			
 func play_card_phase():
-	var hand_cards : Array[Node] = get_node("MainArea/Player" + str(active_player + 1) + "Hand/Cards").get_children()
+	var hand_cards : Array[Node] = get_node("MainArea/Player" + str(active_player) + "Hand/Cards").get_children()
 	if (auto_combat):
 		for i in range(len(hand_cards)):
 			if hand_cards[i].current_wait_timer == 0:
@@ -236,7 +236,7 @@ func basic_attack(card, position):
 	if has_opposing_card(position):
 		modify_entity(card, battlefield_cards[other_player][position], "physical", -card.cardAtk, 0, "", "", 0)
 	else:
-		var other_player_hp_label : Label = get_node("MainArea/Player" + str(other_player + 1) + "Profile/HPLabel")
+		var other_player_hp_label : Label = get_node("MainArea/Player" + str(other_player) + "Profile/HPLabel")
 		players[other_player]["hero_hp"] -= card.cardAtk
 		other_player_hp_label.text = str(players[other_player]["hero_hp"])	
 		print("attacking hero")

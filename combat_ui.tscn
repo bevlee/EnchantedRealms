@@ -27,7 +27,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Player2Hand" type="Panel" parent="MainArea"]
+[node name="Player1Hand" type="Panel" parent="MainArea"]
 custom_minimum_size = Vector2(500, 100)
 layout_mode = 0
 offset_left = 212.0
@@ -35,9 +35,9 @@ offset_top = 41.0
 offset_right = 712.0
 offset_bottom = 141.0
 
-[node name="Cards" type="Sprite2D" parent="MainArea/Player2Hand" groups=["cardsInHand"]]
+[node name="Cards" type="Sprite2D" parent="MainArea/Player1Hand" groups=["cardsInHand"]]
 
-[node name="Player1Hand" type="Panel" parent="MainArea"]
+[node name="Player0Hand" type="Panel" parent="MainArea"]
 custom_minimum_size = Vector2(500, 100)
 layout_mode = 0
 offset_left = 211.0
@@ -45,14 +45,14 @@ offset_top = 581.0
 offset_right = 711.0
 offset_bottom = 681.0
 
-[node name="Cards" type="Sprite2D" parent="MainArea/Player1Hand" groups=["cardsInHand"]]
+[node name="Cards" type="Sprite2D" parent="MainArea/Player0Hand" groups=["cardsInHand"]]
 centered = false
+
+[node name="Player0Icon" type="Sprite2D" parent="MainArea"]
 
 [node name="Player1Icon" type="Sprite2D" parent="MainArea"]
 
-[node name="Player2Icon" type="Sprite2D" parent="MainArea"]
-
-[node name="Player1Deck" type="Sprite2D" parent="MainArea"]
+[node name="Player0Deck" type="Sprite2D" parent="MainArea"]
 position = Vector2(98, 672.25)
 scale = Vector2(2.35, 1.95536)
 texture = ExtResource("3_6d5ls")
@@ -65,29 +65,29 @@ offset_right = 1082.0
 offset_bottom = 582.0
 color = Color(0.266667, 0.266667, 0.270588, 0.65098)
 
-[node name="Player2BattleArea" type="MarginContainer" parent="MainArea/BattleField"]
+[node name="Player1BattleArea" type="MarginContainer" parent="MainArea/BattleField"]
 layout_mode = 2
 offset_right = 870.0
 offset_bottom = 220.0
 
-[node name="Cards" type="Sprite2D" parent="MainArea/BattleField/Player2BattleArea"]
+[node name="Cards" type="Sprite2D" parent="MainArea/BattleField/Player1BattleArea"]
 
-[node name="Player1BattleArea" type="MarginContainer" parent="MainArea/BattleField"]
+[node name="Player0BattleArea" type="MarginContainer" parent="MainArea/BattleField"]
 layout_mode = 2
 offset_top = 221.0
 offset_right = 870.0
 offset_bottom = 441.0
 
-[node name="Cards" type="Sprite2D" parent="MainArea/BattleField/Player1BattleArea"]
+[node name="Cards" type="Sprite2D" parent="MainArea/BattleField/Player0BattleArea"]
 
-[node name="Player2Profile" type="Panel" parent="MainArea"]
+[node name="Player1Profile" type="Panel" parent="MainArea"]
 layout_mode = 0
 offset_left = 12.0
 offset_top = 40.0
 offset_right = 206.0
 offset_bottom = 298.0
 
-[node name="HPLabel" type="Label" parent="MainArea/Player2Profile"]
+[node name="HPLabel" type="Label" parent="MainArea/Player1Profile"]
 layout_mode = 0
 offset_left = 23.0
 offset_top = 192.0
@@ -97,7 +97,7 @@ theme_override_font_sizes/font_size = 30
 text = "HP: 9000
 "
 
-[node name="usernameLabel" type="Label" parent="MainArea/Player2Profile"]
+[node name="usernameLabel" type="Label" parent="MainArea/Player1Profile"]
 layout_mode = 0
 offset_left = 32.0
 offset_top = 21.0
@@ -107,14 +107,14 @@ theme_override_font_sizes/font_size = 30
 text = "Player2
 "
 
-[node name="Player1Profile" type="Panel" parent="MainArea"]
+[node name="Player0Profile" type="Panel" parent="MainArea"]
 layout_mode = 0
 offset_left = 15.0
 offset_top = 366.0
 offset_right = 212.0
 offset_bottom = 655.0
 
-[node name="HPLabel" type="Label" parent="MainArea/Player1Profile"]
+[node name="HPLabel" type="Label" parent="MainArea/Player0Profile"]
 layout_mode = 0
 offset_left = 19.0
 offset_top = 11.0
@@ -124,7 +124,7 @@ theme_override_font_sizes/font_size = 30
 text = "HP: 9000
 "
 
-[node name="usernameLabel" type="Label" parent="MainArea/Player1Profile"]
+[node name="usernameLabel" type="Label" parent="MainArea/Player0Profile"]
 layout_mode = 0
 offset_left = 30.0
 offset_top = 190.0
