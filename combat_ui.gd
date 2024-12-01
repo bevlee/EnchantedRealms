@@ -158,7 +158,7 @@ func move_card(cardName, src, destination, position):
 	rerender(src)
 	rerender(destination)
 
-# 
+# both players have their card timers decreased every turn
 func pre_draw_phase():
 	var player0_cards_scene : Sprite2D = get_node("MainArea/Player0Hand/Cards") 
 	
@@ -222,8 +222,6 @@ func action_phase():
 				await use_skill(card, currentCardPosition, skill)
 		
 		## TODO implement skills for active (look into reaction/defensive later)
-		#print(cardSkills)
-		#attack
 		await basic_attack(card, currentCardPosition)
 		await card.take_action("basic attack")
 		
@@ -231,14 +229,13 @@ func action_phase():
 	
 	
 func basic_attack(card, position):
-	#card.material.set_shader_parameter("outline_color", Color(255, 0.0, 0.0, 1.0))
 	var other_player = 1 - active_player
 	if has_opposing_card(position):
 		modify_entity(card, battlefield_cards[other_player][position], "physical", -card.cardAtk, 0, "", "", 0)
 	else:
 		var other_player_hp_label : Label = get_node("MainArea/Player" + str(other_player) + "Profile/HPLabel")
 		players[other_player]["hero_hp"] -= card.cardAtk
-		other_player_hp_label.text = str(players[other_player]["hero_hp"])	
+		other_player_hp_label.text = str(players[other_player]["hero_hp"])
 		print("attacking hero")
 	
 func use_skill(card, card_position: int, skill_name: String) -> void:
@@ -290,7 +287,7 @@ func _on_next_turn_button_pressed():
 	pre_draw_phase()
 	draw_phase()
 	play_card_phase()
-	action_phase()
+	await action_phase()
 	end_phase()
 
 
