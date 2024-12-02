@@ -1,0 +1,264 @@
+[gd_scene load_steps=13 format=3 uid="uid://crvakp1unijfi"]
+
+[ext_resource type="Texture2D" uid="uid://0moyle7l70v3" path="res://Assets/Cards/Units/Footman.png" id="1_21liw"]
+[ext_resource type="Script" path="res://scenes/Card.gd" id="1_v5efk"]
+[ext_resource type="Shader" path="res://Shaders/card_combat_view.gdshader" id="2_xeyur"]
+[ext_resource type="Texture2D" uid="uid://cg33q8v4s7p0c" path="res://Assets/Cards/Borders/cardborder.png" id="2_xp2sk"]
+[ext_resource type="Texture2D" uid="uid://fx0vhvgok50k" path="res://Assets/Cards/Misc/Hourglass.png" id="3_2ae45"]
+[ext_resource type="Texture2D" uid="uid://cy1ij6ipxxpw6" path="res://Assets/Cards/Misc/SkillBackground.png" id="4_xjm4t"]
+[ext_resource type="Texture2D" uid="uid://d4cvcmspiidlo" path="res://Assets/Cards/Type/Earth.png" id="5_pnbp6"]
+[ext_resource type="Texture2D" uid="uid://5fjh7aw3si0r" path="res://Assets/Cards/UnitIcons/Footman.png" id="6_qx572"]
+[ext_resource type="Texture2D" uid="uid://cblw0ldmr16m3" path="res://Assets/Cards/Borders/square_border_playable.png" id="7_gsqwk"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xytc3"]
+
+[sub_resource type="SystemFont" id="SystemFont_fs8dc"]
+font_italic = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kab8l"]
+resource_local_to_scene = true
+shader = ExtResource("2_xeyur")
+shader_parameter/outline_width = 2.0
+shader_parameter/outline_color = null
+
+[node name="Card" type="Node2D"]
+script = ExtResource("1_v5efk")
+
+[node name="DetailView" type="Node2D" parent="."]
+visible = false
+
+[node name="Sprites" type="Node2D" parent="DetailView"]
+metadata/_edit_lock_ = true
+metadata/_edit_group_ = true
+
+[node name="Card" type="Sprite2D" parent="DetailView/Sprites"]
+texture = ExtResource("1_21liw")
+
+[node name="Border" type="Sprite2D" parent="DetailView/Sprites"]
+material = SubResource("ShaderMaterial_xytc3")
+position = Vector2(-1.50004, 3.0001)
+scale = Vector2(5.03493, 5.41333)
+texture = ExtResource("2_xp2sk")
+
+[node name="CardWait" type="Node2D" parent="DetailView"]
+metadata/_edit_lock_ = true
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="DetailView/CardWait"]
+position = Vector2(344, -663)
+scale = Vector2(0.133594, 0.154844)
+texture = ExtResource("3_2ae45")
+
+[node name="WaitLabel" type="Label" parent="DetailView/CardWait"]
+offset_left = 407.0
+offset_top = -733.0
+offset_right = 475.0
+offset_bottom = -584.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 90
+text = "2
+"
+
+[node name="CardName" type="Node2D" parent="DetailView"]
+metadata/_edit_lock_ = true
+metadata/_edit_group_ = true
+
+[node name="CardNameLabel" type="Label" parent="DetailView/CardName"]
+offset_left = -172.0
+offset_top = -727.0
+offset_right = 216.0
+offset_bottom = -603.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 90
+text = "Footman"
+
+[node name="Attributes" type="Node2D" parent="DetailView"]
+
+[node name="Attack" type="Node2D" parent="DetailView/Attributes"]
+position = Vector2(0, -2)
+
+[node name="AttackBackground" type="Sprite2D" parent="DetailView/Attributes/Attack"]
+position = Vector2(-9.20099, 401)
+scale = Vector2(0.91598, 0.745)
+texture = ExtResource("4_xjm4t")
+centered = false
+offset = Vector2(-50, 0)
+
+[node name="AttackLabel" type="RichTextLabel" parent="DetailView/Attributes/Attack"]
+offset_left = -34.0
+offset_top = 407.0
+offset_right = 500.0
+offset_bottom = 535.0
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_fonts/italics_font = SubResource("SystemFont_fs8dc")
+theme_override_font_sizes/normal_font_size = 90
+theme_override_font_sizes/italics_font_size = 90
+text = "ATK: 1000"
+metadata/_edit_use_anchors_ = true
+
+[node name="HP" type="Node2D" parent="DetailView/Attributes"]
+
+[node name="HPBackground" type="Sprite2D" parent="DetailView/Attributes/HP"]
+position = Vector2(-96.3756, 570)
+scale = Vector2(1.07249, 0.745)
+texture = ExtResource("4_xjm4t")
+centered = false
+offset = Vector2(-50, 0)
+
+[node name="HPLabel" type="RichTextLabel" parent="DetailView/Attributes/HP"]
+offset_left = -114.0
+offset_top = 573.0
+offset_right = 319.0
+offset_bottom = 701.0
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_fonts/italics_font = SubResource("SystemFont_fs8dc")
+theme_override_font_sizes/normal_font_size = 90
+theme_override_font_sizes/italics_font_size = 90
+text = "HP: 1000"
+
+[node name="Faction" type="Node2D" parent="DetailView/Attributes"]
+position = Vector2(0, -2)
+
+[node name="Faction" type="Sprite2D" parent="DetailView/Attributes/Faction"]
+position = Vector2(-534, -760)
+scale = Vector2(0.260999, 0.265)
+texture = ExtResource("5_pnbp6")
+centered = false
+offset = Vector2(-50, 0)
+
+[node name="Type" type="Node2D" parent="DetailView/Attributes"]
+position = Vector2(0, -2)
+
+[node name="TypeIcon" type="Sprite2D" parent="DetailView/Attributes/Type"]
+position = Vector2(-534, -760)
+scale = Vector2(0.260999, 0.265)
+texture = ExtResource("5_pnbp6")
+centered = false
+offset = Vector2(-50, 0)
+
+[node name="CombatView" type="Node2D" parent="."]
+
+[node name="Sprites" type="Node2D" parent="CombatView"]
+metadata/_edit_lock_ = true
+
+[node name="Card" type="Sprite2D" parent="CombatView/Sprites"]
+position = Vector2(513, 750)
+texture = ExtResource("1_21liw")
+
+[node name="Border" type="Sprite2D" parent="CombatView/Sprites"]
+material = SubResource("ShaderMaterial_kab8l")
+scale = Vector2(5.03493, 5.41333)
+texture = ExtResource("2_xp2sk")
+
+[node name="CardName" type="Node2D" parent="CombatView"]
+metadata/_edit_lock_ = true
+metadata/_edit_group_ = true
+
+[node name="CardNameLabel" type="Label" parent="CombatView/CardName"]
+offset_left = -172.0
+offset_top = -727.0
+offset_right = 216.0
+offset_bottom = -603.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 90
+text = "Footman"
+
+[node name="Attributes" type="Node2D" parent="CombatView"]
+
+[node name="Attack" type="Node2D" parent="CombatView/Attributes"]
+position = Vector2(0, -2)
+
+[node name="AttackBackground" type="Sprite2D" parent="CombatView/Attributes/Attack"]
+position = Vector2(-9.20099, 401)
+scale = Vector2(0.91598, 0.745)
+texture = ExtResource("4_xjm4t")
+centered = false
+offset = Vector2(-50, 0)
+
+[node name="AttackLabel" type="RichTextLabel" parent="CombatView/Attributes/Attack"]
+offset_left = -34.0
+offset_top = 407.0
+offset_right = 500.0
+offset_bottom = 535.0
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_fonts/italics_font = SubResource("SystemFont_fs8dc")
+theme_override_font_sizes/normal_font_size = 90
+theme_override_font_sizes/italics_font_size = 90
+text = "ATK: 1000"
+metadata/_edit_use_anchors_ = true
+
+[node name="HP" type="Node2D" parent="CombatView/Attributes"]
+
+[node name="HPBackground" type="Sprite2D" parent="CombatView/Attributes/HP"]
+position = Vector2(-96.3756, 570)
+scale = Vector2(1.07249, 0.745)
+texture = ExtResource("4_xjm4t")
+centered = false
+offset = Vector2(-50, 0)
+
+[node name="HPLabel" type="RichTextLabel" parent="CombatView/Attributes/HP"]
+offset_left = -114.0
+offset_top = 573.0
+offset_right = 319.0
+offset_bottom = 701.0
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_fonts/italics_font = SubResource("SystemFont_fs8dc")
+theme_override_font_sizes/normal_font_size = 90
+theme_override_font_sizes/italics_font_size = 90
+text = "HP: 1000"
+
+[node name="Faction" type="Node2D" parent="CombatView/Attributes"]
+position = Vector2(0, -2)
+
+[node name="Faction" type="Sprite2D" parent="CombatView/Attributes/Faction"]
+position = Vector2(-534, -760)
+scale = Vector2(0.260999, 0.265)
+texture = ExtResource("5_pnbp6")
+centered = false
+offset = Vector2(-50, 0)
+
+[node name="Type" type="Node2D" parent="CombatView/Attributes"]
+position = Vector2(0, -2)
+
+[node name="TypeIcon" type="Sprite2D" parent="CombatView/Attributes/Type"]
+position = Vector2(-534, -760)
+scale = Vector2(0.260999, 0.265)
+texture = ExtResource("5_pnbp6")
+centered = false
+offset = Vector2(-50, 0)
+
+[node name="CompactView" type="Node2D" parent="."]
+visible = false
+
+[node name="Sprites" type="Node2D" parent="CompactView"]
+
+[node name="Card" type="Sprite2D" parent="CompactView/Sprites"]
+position = Vector2(1.5, -0.25)
+scale = Vector2(1.514, 1.15639)
+texture = ExtResource("6_qx572")
+
+[node name="Border" type="Sprite2D" parent="CompactView/Sprites"]
+texture = ExtResource("7_gsqwk")
+
+[node name="CardWait" type="Node2D" parent="CompactView"]
+
+[node name="WaitIcon" type="Sprite2D" parent="CompactView/CardWait"]
+position = Vector2(-306, 274.531)
+scale = Vector2(0.1975, 0.206172)
+texture = ExtResource("3_2ae45")
+
+[node name="WaitLabel" type="Label" parent="CompactView/CardWait"]
+offset_left = -244.0
+offset_top = 178.0
+offset_right = -106.0
+offset_bottom = 375.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 100
+text = "2
+"
+
+[node name="Effects" type="Node2D" parent="."]
+
+[node name="ActionText" type="Label" parent="Effects"]
+offset_right = 40.0
+offset_bottom = 23.0
