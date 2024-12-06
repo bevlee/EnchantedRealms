@@ -1,8 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://cw6i5svqiy243"]
+[gd_scene load_steps=12 format=3 uid="uid://cw6i5svqiy243"]
 
 [ext_resource type="Script" path="res://CardDetailView.gd" id="1_n16gs"]
 [ext_resource type="Texture2D" uid="uid://cg33q8v4s7p0c" path="res://Assets/Cards/Borders/cardborder.png" id="2_ewkpy"]
 [ext_resource type="Script" path="res://Background.gd" id="2_x7mmf"]
+[ext_resource type="Texture2D" uid="uid://0moyle7l70v3" path="res://Assets/Cards/Units/Footman.png" id="3_i1w5e"]
 [ext_resource type="FontFile" uid="uid://0mrgocx31baa" path="res://Assets/font/Comfortaa-Bold.ttf" id="3_ppsmw"]
 [ext_resource type="Texture2D" uid="uid://dwxi6lg8tgvpi" path="res://Assets/GUI/background shade.png" id="4_r7xm0"]
 [ext_resource type="Texture2D" uid="uid://cb4bvr4sll6f6" path="res://Assets/Cards/Misc/CostBackground.png" id="5_jg27r"]
@@ -17,21 +18,23 @@ offset_bottom = 720.0
 script = ExtResource("1_n16gs")
 
 [node name="Background" type="ColorRect" parent="."]
-layout_mode = 2
+layout_mode = 0
 offset_right = 1280.0
 offset_bottom = 720.0
-color = Color(0, 0, 0, 0.0901961)
+color = Color(0, 0, 0, 1)
 script = ExtResource("2_x7mmf")
 metadata/_edit_lock_ = true
 
 [node name="CardArea" type="MarginContainer" parent="."]
 layout_mode = 1
+anchors_preset = -1
 offset_right = 274.0
 offset_bottom = 357.0
 size_flags_horizontal = 0
 size_flags_vertical = 4
 
 [node name="Card" type="Sprite2D" parent="CardArea"]
+texture = ExtResource("3_i1w5e")
 centered = false
 
 [node name="Border" type="Sprite2D" parent="CardArea"]
@@ -114,16 +117,18 @@ text = "19"
 [node name="MidSectionEmptySpace" type="MarginContainer" parent="CardArea/CardBars"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
+size_flags_vertical = 4
 
 [node name="MarginContainer" type="MarginContainer" parent="CardArea/CardBars"]
 layout_mode = 2
+size_flags_vertical = 8
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CardArea/CardBars/MarginContainer"]
 layout_mode = 2
 
 [node name="SkillContainer" type="VBoxContainer" parent="CardArea/CardBars/MarginContainer/VBoxContainer"]
-visible = false
 layout_mode = 2
+size_flags_vertical = 4
 
 [node name="Skill3" type="RichTextLabel" parent="CardArea/CardBars/MarginContainer/VBoxContainer/SkillContainer"]
 clip_contents = false

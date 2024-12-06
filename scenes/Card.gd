@@ -4,43 +4,17 @@ class_name Card
 
 signal dead
 
-@onready var cardDatabase = load("res://CardsDatabase.gd")
-@onready var skillDatabase = preload("res://SkillsDatabase.gd")
+var cardDatabase = preload("res://CardsDatabase.gd")
+var skillDatabase = preload("res://SkillsDatabase.gd")
 
 var skillsDatabase = preload("res://SkillsDatabase.gd")
 var passive_skills = skillsDatabase.PASSIVE_SKILLS
 
+@onready var base_scene: Node2D = $DetailView
 # either detail, combat or hand 
-var view : String = "detail" :
-	get:
-		return view
-	set(val):
-		match val:
-			"detail":
-				print("detail view")
-				$DetailView.visible = true
-				$CombatView.visible = false
-				$CompactView.visible = false
-				base_scene = $DetailView
-				
-			"combat":
-				print("combat view")
-				$DetailView.visible = false
-				$CombatView.visible = true
-				$CompactView.visible = false
-				base_scene = $CombatView
-			"compact": # hand + graveyard
-				print("compact view")
-				$DetailView.visible = false
-				$CombatView.visible = false
-				$CompactView.visible = true
-				base_scene = $CompactView
-		view = val
-		
+var view: String
 
-var base_scene: Node2D
-var default_cardName = "Footman"
-var cardName
+var card_name: String 
 var level = 1
 var wait_timer : int :
 	get: 
@@ -53,14 +27,9 @@ var wait_timer : int :
 			var playableBorder = str("res://Assets/Cards/Borders/square_border_playable.png")
 			base_scene.get_node("Sprites/Border").texture = load(playableBorder)
 			
-		
-var card_atk :
-	set(val):
-		card_atk = val
-		if view != "compact":
-			base_scene.get_node("Attributes/Attack/AttackLabel").text = "ATK: " + str( val)
-var default_hp
-var card_hp: 
+var card_atk :int = 100
+var default_hp = 100
+var card_hp: int = 100 :
 	get: 
 		return card_hp
 	set(val):
@@ -98,24 +67,38 @@ const CARD_SIZES = {
 }
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
-	if cardName == null:
-		cardName = default_cardName
-	load_card(cardName, level, view)
+#func _ready():
+	#if card_name == "":
+		#card_name = default_cardName
+	#load_card(card_name, level, view)
+	#base_scene.get_node("Sprites/Card").scale = CARD_SIZES["sprite"] / base_scene.get_node("Sprites/Card").texture.get_size()
+	#base_scene.get_node("Sprites/Border").scale = CARD_SIZES["border"] / base_scene.get_node("Sprites/Border").texture.get_size() 
+	#var scaled_base_size = CARD_SIZES["border"]
+	#var size = scaled_base_size
+	#print(size)
+	#base_scene.scale = CARD_SIZES[view] / CARD_SIZES["border"]
+	#base_scene.position = CARD_SIZES[view] / 2
+	
+func rerender():
+	print("rerendering")
 	base_scene.get_node("Sprites/Card").scale = CARD_SIZES["sprite"] / base_scene.get_node("Sprites/Card").texture.get_size()
 	base_scene.get_node("Sprites/Border").scale = CARD_SIZES["border"] / base_scene.get_node("Sprites/Border").texture.get_size() 
-	var scaled_base_size = CARD_SIZES["border"]
-	var size = scaled_base_size
-	print(size)
-	base_scene.scale = CARD_SIZES[view] / CARD_SIZES["border"]
-	base_scene.position = CARD_SIZES[view] / 2
+	base_scene.scale = CARD_SIZES[view] / CARD_SIZES["border"]#Vector2(0.01, 0.01)#
+	base_scene.position = CARD_SIZES[view] /2
 	
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
-	pass
+	# Set attributes correctly
+	if view != "compact":
+		base_scene.get_node("CardName/CardNameLabel").text = card_name
+		base_scene.get_node("Attributes/HP/HPLabel").text = str(card_hp)
+		base_scene.get_node("Attributes/Attack/AttackLabel").text = "ATK: " + str(card_atk)
+	else: 
+		base_scene.get_node("CardWait/WaitLabel").text = str(wait_timer)
+		if wait_timer == 0:
+			var playableBorder = str("res://Assets/Cards/Borders/square_border_playable.png")
+			base_scene.get_node("Sprites/Border").texture = load(playableBorder)
 
 func take_action(action: String) -> void:
-	print("starting action for card" + cardName)
+	#print("starting action for card" + cardName)
 	set_active()
 	$Effects/ActionText.text = action
 	var tween = create_tween()
@@ -127,19 +110,21 @@ func take_action(action: String) -> void:
 	await tween.finished
 	$Effects/ActionText.visible=false
 	set_inactive()
-	print("finishing action for card" + cardName)
+	#print("finishing action for card" + cardName)
 	
 func set_active():
-	var a = base_scene.get_node("Sprites/Border").material
 	base_scene.get_node("Sprites/Border").material.set_shader_parameter("outline_color", Color(255,0,0,1)) 
 	
 func set_inactive():
 
 	base_scene.get_node("Sprites/Border").material.set_shader_parameter("outline_color", Color(0,0,0,1)) 
 
-func load_card(cardName = "Archer", level = 1, view="combat"):
+func load_card(card_name = self.card_name, level = self.level, view= self.view):
+	print("loading card")
+	set_view(view)
 	var cardImg
-	var cardInfo = cardDatabase.DATA[cardName]
+	var cardInfo: Array = cardDatabase.DATA[card_name]
+	self.card_name = card_name
 	skill1 = cardInfo[4]
 	skill2 = cardInfo[5]
 	skill3 = cardInfo[6]
@@ -160,25 +145,23 @@ func load_card(cardName = "Archer", level = 1, view="combat"):
 	wait_timer = cardInfo[3]
 	
 	if view == "compact":
-		cardImg = str("res://Assets/Cards/UnitIcons/", cardName, ".png")
+		cardImg = str("res://Assets/Cards/UnitIcons/", card_name, ".png")
 	else:
-		cardImg = str("res://Assets/Cards/Units/", cardName, ".png")
+		cardImg = str("res://Assets/Cards/Units/", card_name, ".png")
 		
 		#load in the type icon
 		var cardType = cardInfo[0]
 		var cardTypeIcon = str("res://Assets/Cards/Type/", cardType, ".png")
-		print(cardTypeIcon)
-		var a = base_scene.get_node("Attributes").get_children()
-		print(a)
+		
 		base_scene.get_node("Attributes/Type/TypeIcon").texture = load(cardTypeIcon)
 		
 		base_scene.get_node("Attributes/Attack/AttackLabel").text = "ATK: " + str(atk)
 		base_scene.get_node("Attributes/HP/HPLabel").text = "HP: " + str(default_hp)
 
-	print(cardImg)
 	#$Border.scale *= cardSize / $Border.texture.get_size()
 	base_scene.get_node("Sprites/Card").texture = load(cardImg)
 	#$Card.scale *= cardSize/$Card.texture.get_size()
+	rerender()
 	
 	
 
@@ -225,4 +208,28 @@ func remove_effect(key: String):
 	card_atk += applied_effects[key]["atk_change"]
 	card_hp += applied_effects[key]["hp_change"]
 	applied_effects.erase(key)
-	
+
+func set_view(view: String):
+	match view:
+		"detail":
+			print("detail view")
+			$DetailView.visible = true
+			$CombatView.visible = false
+			$CompactView.visible = false
+			base_scene = $DetailView
+			
+		"combat":
+			print("combat view")
+			$DetailView.visible = false
+			$CombatView.visible = true
+			$CompactView.visible = false
+			base_scene = $CombatView
+		"compact": # hand + graveyard
+			print("compact view")
+			$DetailView.visible = false
+			$CombatView.visible = false
+			$CompactView.visible = true
+			base_scene = $CompactView
+	self.view = view
+	print("base scene " + str(view))
+	rerender()

@@ -1,6 +1,5 @@
 extends MarginContainer
 
-class_name Card
 
 signal dead
 
@@ -15,15 +14,17 @@ var passive_skills = skillsDatabase.PASSIVE_SKILLS
 var default_cardName = "Footman"
 var cardName
 var level  = 1
-var cardAtk :
+var card_atk :
 	set(val):
 		$CardBars/ATKRow/ATK/ATKLabel.text = "ATK: " + str( val)
-		cardAtk = val
+		card_atk = val
 var default_hp
-var cardHP : 
+var card_hp: 
+	get: 
+		return card_hp
 	set(val):
 		var new_hp: int = max(0, val)
-		
+		card_hp = new_hp
 		hp_label.text = str(new_hp)
 		# set black for default
 		if new_hp == default_hp:
@@ -37,6 +38,7 @@ var cardHP :
 			hp_label.add_theme_color_override("font_color", Color(0,1,0,1))
 		if new_hp == 0:
 			dead.emit()
+		
 		
 		
 var skill1
@@ -104,12 +106,12 @@ func load_card(cardName,  level):
 	# Set ATK
 	var atk = cardInfo[8] + cardInfo[11]*level
 	$CardBars/ATKRow/ATK/ATKLabel.text = "ATK: " + str(atk)
-	cardAtk = atk
+	card_atk = atk
 	
 	# Set hp
 	default_hp = cardInfo[9] + cardInfo[12]*level
-	#cardHP = default_hp
-	cardHP = default_hp
+	#card_hp = default_hp
+	card_hp = default_hp
 	$CardBars/LvHPRow/HP/HPLabel.text = "HP: " + str(default_hp)
 func get_skills() ->  Array:
 	return [skill1, skill2, skill3]
@@ -141,7 +143,7 @@ func modify(source: Object, effect_type: String, hp_change: int = 0, atk_change:
 				var res = applied_effects.erase(remove_effect)
 				print(remove_effect + " was removed: " + str(res))
 	if modified_hp_change != 0:
-		cardHP -= modified_hp_change
+		card_hp += modified_hp_change
 		
 func tick():
 	for key in applied_effects:
@@ -150,8 +152,8 @@ func tick():
 			remove_effect(key)
 			
 func remove_effect(key: String):
-	cardAtk += applied_effects[key]["atk_change"]
-	cardHP += applied_effects[key]["hp_change"]
+	card_atk += applied_effects[key]["atk_change"]
+	card_hp += applied_effects[key]["hp_change"]
 	applied_effects.erase(key)
 	
 		
