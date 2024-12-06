@@ -51,15 +51,15 @@ offset_right = 1082.0
 offset_bottom = 582.0
 color = Color(0.266667, 0.266667, 0.270588, 0.65098)
 
-[node name="Player0BattleArea" type="ColorRect" parent="MainArea/BattleField"]
+[node name="Player1BattleArea" type="ColorRect" parent="MainArea/BattleField"]
 layout_mode = 2
 offset_right = 870.0
 offset_bottom = 220.0
 color = Color(1, 1, 1, 0)
 
-[node name="Cards" type="Sprite2D" parent="MainArea/BattleField/Player0BattleArea"]
+[node name="Cards" type="Sprite2D" parent="MainArea/BattleField/Player1BattleArea"]
 
-[node name="Player1BattleArea" type="ColorRect" parent="MainArea/BattleField"]
+[node name="Player0BattleArea" type="ColorRect" parent="MainArea/BattleField"]
 layout_mode = 2
 offset_left = -1.0
 offset_top = 220.0
@@ -67,7 +67,7 @@ offset_right = 869.0
 offset_bottom = 440.0
 color = Color(1, 1, 1, 0)
 
-[node name="Cards" type="Sprite2D" parent="MainArea/BattleField/Player1BattleArea"]
+[node name="Cards" type="Sprite2D" parent="MainArea/BattleField/Player0BattleArea"]
 
 [node name="Player1Profile" type="Panel" parent="MainArea"]
 offset_left = 12.0

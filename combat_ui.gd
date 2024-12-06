@@ -88,7 +88,7 @@ func play_cards():
 	var cards_played = 0
 	var queued_cards = players[active_player]["queued_cards"]
 	for i in range(len(queued_cards)):
-		print("playelenrqueued cards are: ")
+		print("playelen queued cards are: ")
 		print(queued_cards)
 		active_card = queued_cards.pop_front()
 		players[active_player]["hand"].erase(active_card)
@@ -104,7 +104,7 @@ func play_cards():
 		print("children: " + str(get_children()))
 		print("battlefield coords: " + str(player_battlefield_cards_parent_scene.global_position))
 		var player_battlefield_cards = battlefield_cards[active_player]
-		active_card.position.x += 160 * len(player_battlefield_cards)
+		active_card.position.x += 172 * (len(player_battlefield_cards) - 1)
 		
 		#active_card.scale *= combatCardSize / active_card.size
 		
@@ -130,7 +130,6 @@ func rerender(location):
 		for i in range(len(players[1]["hand"])):
 			players[1]["hand"][i].position = hand_cards.position
 			players[1]["hand"][i].position.x += 100*i
-			
 			
 	if location == "player0_battlefield":
 		print("rerender p0")
@@ -165,12 +164,12 @@ func move_card(card: Object, src: String, destination: String):
 		battlefield_cards[1]["hand"].remove_at(position)
 	var destination_parent
 	if (destination == "player0_battlefield"):
-		destination_parent = get_node("MainArea/BattleField/Player1BattleArea/Cards")
+		destination_parent = get_node("MainArea/BattleField/Player0BattleArea/Cards")
 		destination_parent.add_child(card)
 		card.set_view("combat")
 		battlefield_cards[0].append(card)
 	if (destination == "player1_battlefield"):
-		destination_parent = get_node("MainArea/BattleField/Player0BattleArea/Cards")
+		destination_parent = get_node("MainArea/BattleField/Player1BattleArea/Cards")
 		destination_parent.add_child(card)
 		card.set_view("combat")
 		battlefield_cards[1].append(card)
@@ -181,9 +180,8 @@ func move_card(card: Object, src: String, destination: String):
 
 # both players have their card timers decreased every turn
 func pre_draw_phase():
-	var player0_cards_scene : Sprite2D = get_node("MainArea/Player0Hand/Cards") 
-	
-	var player1_cards_scene : Sprite2D = get_node("MainArea/Player1Hand/Cards") 
+	var player0_cards_scene : Sprite2D = get_node("MainArea/Player0Hand/Cards")
+	var player1_cards_scene : Sprite2D = get_node("MainArea/Player1Hand/Cards")
 	var hand_cards = player0_cards_scene.get_children() + player1_cards_scene.get_children()
 	# decrease timer of cards in hand
 	for i in range(len(hand_cards)):
@@ -206,8 +204,6 @@ func draw_phase():
 			#newCard.scale *= handCardSize / newCard.size
 			
 			player_cards_scene.add_child(newCard)
-			
-			
 			#newCard.ready_card.connect(_on_ready_card)
 			#newCard.unready_card.connect(_on_unready_card)
 			#newCard.view_card_detail.connect(_on_view_card_detail)
@@ -330,11 +326,11 @@ func _on_exit_view_card_detail():
 func start():
 	print("combatStarting")
 	show() 
-	#players[active_player]["deck"] = Global.playerStateMachine.deck.duplicate(true)	
-	players[active_player]["deck"] = ["Footman"]
+	players[active_player]["deck"] = Global.playerStateMachine.deck.duplicate(true)	
+	#players[active_player]["deck"] = ["Footman"]
 	#players[active_player+ 1]["deck"] = Global.playerStateMachine2.deck.duplicate(true)
 	shuffle_deck(players[active_player]["deck"])
-	print(players[active_player]["deck"])
+	print(players[active_player]["deck"]) 
 
 func finish():
 	hide()

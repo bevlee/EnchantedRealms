@@ -50,12 +50,10 @@ var card_hp: int = 100 :
 				hp_label.add_theme_color_override("font_color", Color(0,1,0,1))
 			if new_hp == 0:
 				dead.emit()
-		
-		
-		
 var skill1
 var skill2
 var skill3
+var card_type
 # buffs and debuffs
 var applied_effects: Dictionary
 const CARD_SIZES = {
@@ -81,21 +79,30 @@ const CARD_SIZES = {
 	
 func rerender():
 	print("rerendering")
-	base_scene.get_node("Sprites/Card").scale = CARD_SIZES["sprite"] / base_scene.get_node("Sprites/Card").texture.get_size()
-	base_scene.get_node("Sprites/Border").scale = CARD_SIZES["border"] / base_scene.get_node("Sprites/Border").texture.get_size() 
-	base_scene.scale = CARD_SIZES[view] / CARD_SIZES["border"]#Vector2(0.01, 0.01)#
-	base_scene.position = CARD_SIZES[view] /2
 	
 	# Set attributes correctly
 	if view != "compact":
 		base_scene.get_node("CardName/CardNameLabel").text = card_name
-		base_scene.get_node("Attributes/HP/HPLabel").text = str(card_hp)
+		base_scene.get_node("Attributes/HP/HPLabel").text = "HP: " + str(card_hp)
 		base_scene.get_node("Attributes/Attack/AttackLabel").text = "ATK: " + str(card_atk)
+		var card_texture = str("res://Assets/Cards/Units/" + card_name + ".png")
+		base_scene.get_node("Sprites/Card").texture = load(card_texture)
+		var card_type_icon = str("res://Assets/Cards/Type/" + card_type + ".png")
+		base_scene.get_node("Attributes/Type/TypeIcon").texture = load(card_type_icon)
+		
 	else: 
 		base_scene.get_node("CardWait/WaitLabel").text = str(wait_timer)
 		if wait_timer == 0:
 			var playableBorder = str("res://Assets/Cards/Borders/square_border_playable.png")
 			base_scene.get_node("Sprites/Border").texture = load(playableBorder)
+		else: 
+			var border = str("res://Assets/Cards/Borders/square_border.png")
+			base_scene.get_node("Sprites/Border").texture = load(border)
+	base_scene.get_node("Sprites/Card").scale = CARD_SIZES["sprite"] / base_scene.get_node("Sprites/Card").texture.get_size()
+	base_scene.get_node("Sprites/Border").scale = CARD_SIZES["border"] / base_scene.get_node("Sprites/Border").texture.get_size() 
+	base_scene.scale = CARD_SIZES[view] / CARD_SIZES["border"]#Vector2(0.01, 0.01)#
+	base_scene.position = CARD_SIZES[view] /2
+	
 
 func take_action(action: String) -> void:
 	#print("starting action for card" + cardName)
@@ -128,8 +135,6 @@ func load_card(card_name = self.card_name, level = self.level, view= self.view):
 	skill1 = cardInfo[4]
 	skill2 = cardInfo[5]
 	skill3 = cardInfo[6]
-	
-	
 	## Set Level
 	#base_scene.get_node("Attributes/HP/HPLabel").text = str(level)
 	
@@ -143,6 +148,7 @@ func load_card(card_name = self.card_name, level = self.level, view= self.view):
 	card_hp = default_hp
 	# Set wait timer
 	wait_timer = cardInfo[3]
+	card_type = cardInfo[0]
 	
 	if view == "compact":
 		cardImg = str("res://Assets/Cards/UnitIcons/", card_name, ".png")
@@ -150,10 +156,9 @@ func load_card(card_name = self.card_name, level = self.level, view= self.view):
 		cardImg = str("res://Assets/Cards/Units/", card_name, ".png")
 		
 		#load in the type icon
-		var cardType = cardInfo[0]
-		var cardTypeIcon = str("res://Assets/Cards/Type/", cardType, ".png")
+		var card_type_icon = str("res://Assets/Cards/Type/", card_type, ".png")
 		
-		base_scene.get_node("Attributes/Type/TypeIcon").texture = load(cardTypeIcon)
+		base_scene.get_node("Attributes/Type/TypeIcon").texture = load(card_type_icon)
 		
 		base_scene.get_node("Attributes/Attack/AttackLabel").text = "ATK: " + str(atk)
 		base_scene.get_node("Attributes/HP/HPLabel").text = "HP: " + str(default_hp)
@@ -162,9 +167,6 @@ func load_card(card_name = self.card_name, level = self.level, view= self.view):
 	base_scene.get_node("Sprites/Card").texture = load(cardImg)
 	#$Card.scale *= cardSize/$Card.texture.get_size()
 	rerender()
-	
-	
-
 	
 func get_skills() ->  Array:
 	return [skill1, skill2, skill3]
