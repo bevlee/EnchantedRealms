@@ -1,8 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://3mwjmqustnpk"]
+[gd_scene load_steps=7 format=3 uid="uid://3mwjmqustnpk"]
 
 [ext_resource type="Script" path="res://combat_ui.gd" id="1_angt7"]
 [ext_resource type="Texture2D" uid="uid://bqf5yi35ykihx" path="res://Assets/Background/majestic-mountain-peak-space-fantasy-generated-by-ai_188544-24724.jpg" id="2_lnffm"]
+[ext_resource type="Texture2D" uid="uid://lr2f30aurbha" path="res://Assets/CharIcons/1.png" id="3_3xqot"]
 [ext_resource type="Texture2D" uid="uid://d100whwhug23x" path="res://Assets/Cards/Borders/Back_Texture.png" id="3_6d5ls"]
+[ext_resource type="Texture2D" uid="uid://dwgsb5gxjvlmb" path="res://Assets/CharIcons/2.png" id="4_aodqx"]
 [ext_resource type="Texture2D" uid="uid://bwkckcamsn3ak" path="res://Assets/GUI/arrow_octagon.png" id="7_bvlgs"]
 
 [node name="CombatUI" type="Node2D"]
@@ -36,13 +38,14 @@ offset_bottom = 681.0
 centered = false
 
 [node name="Player0Icon" type="Sprite2D" parent="MainArea"]
+position = Vector2(110.625, 91.625)
+scale = Vector2(0.485808, 0.517442)
+texture = ExtResource("3_3xqot")
 
 [node name="Player1Icon" type="Sprite2D" parent="MainArea"]
-
-[node name="Player0Deck" type="Sprite2D" parent="MainArea"]
-position = Vector2(110, 675)
-scale = Vector2(2.35, 1.95536)
-texture = ExtResource("3_6d5ls")
+position = Vector2(111, 638)
+scale = Vector2(0.413386, 0.4375)
+texture = ExtResource("4_aodqx")
 
 [node name="BattleField" type="ColorRect" parent="MainArea"]
 offset_left = 212.0
@@ -71,96 +74,108 @@ color = Color(1, 1, 1, 0)
 
 [node name="Player1Profile" type="Panel" parent="MainArea"]
 offset_left = 12.0
-offset_top = 40.0
+offset_top = 202.0
 offset_right = 206.0
-offset_bottom = 298.0
+offset_bottom = 325.0
 
 [node name="HPLabel" type="Label" parent="MainArea/Player1Profile"]
-layout_mode = 0
-offset_left = 23.0
-offset_top = 192.0
-offset_right = 185.0
-offset_bottom = 265.0
+layout_mode = 1
+offset_left = 28.0
+offset_top = 68.0
+offset_right = 190.0
+offset_bottom = 113.0
 theme_override_font_sizes/font_size = 30
 text = "HP: 9000
 "
 
 [node name="usernameLabel" type="Label" parent="MainArea/Player1Profile"]
 layout_mode = 0
-offset_left = 32.0
-offset_top = 21.0
-offset_right = 138.0
-offset_bottom = 63.0
+offset_left = 38.0
+offset_top = -55.0
+offset_right = 144.0
+offset_bottom = -13.0
 theme_override_font_sizes/font_size = 30
 text = "Player2
 "
 
 [node name="Player0Profile" type="Panel" parent="MainArea"]
-offset_left = 15.0
-offset_top = 366.0
-offset_right = 212.0
-offset_bottom = 655.0
+offset_left = 17.0
+offset_top = 383.0
+offset_right = 211.0
+offset_bottom = 521.0
 
 [node name="HPLabel" type="Label" parent="MainArea/Player0Profile"]
 layout_mode = 0
-offset_left = 19.0
-offset_top = 11.0
-offset_right = 181.0
-offset_bottom = 84.0
+offset_left = 22.0
+offset_top = 5.0
+offset_right = 184.0
+offset_bottom = 78.0
 theme_override_font_sizes/font_size = 30
 text = "HP: 9000
 "
 
 [node name="usernameLabel" type="Label" parent="MainArea/Player0Profile"]
 layout_mode = 0
-offset_left = 30.0
-offset_top = 190.0
-offset_right = 136.0
-offset_bottom = 232.0
+offset_left = 40.0
+offset_top = 151.0
+offset_right = 146.0
+offset_bottom = 238.0
 theme_override_font_sizes/font_size = 30
 text = "Player1
 
 "
 
+[node name="Graveyard" type="Node2D" parent="MainArea"]
+
+[node name="Player0Graveyard" type="Sprite2D" parent="MainArea/Graveyard"]
+position = Vector2(1175, 640)
+scale = Vector2(2.35, 1.95536)
+texture = ExtResource("3_6d5ls")
+
+[node name="Player1Graveyard" type="Sprite2D" parent="MainArea/Graveyard"]
+position = Vector2(1186, 106)
+scale = Vector2(2.35, 1.95536)
+texture = ExtResource("3_6d5ls")
+
 [node name="BackButton" type="Button" parent="."]
-offset_left = 1078.0
-offset_top = 651.0
-offset_right = 1279.0
-offset_bottom = 708.0
+offset_left = 1079.0
+offset_top = 489.0
+offset_right = 1280.0
+offset_bottom = 546.0
 theme_override_font_sizes/font_size = 35
 text = "GO BACK
 "
 
 [node name="AutoButton" type="Button" parent="."]
-offset_left = 1078.0
-offset_top = 272.0
-offset_right = 1281.0
-offset_bottom = 335.0
+offset_left = 1085.0
+offset_top = 200.0
+offset_right = 1288.0
+offset_bottom = 263.0
 theme_override_font_sizes/font_size = 27
 text = "AUTO COMBAT
 "
 
 [node name="NextTurnButton" type="Button" parent="."]
-offset_left = 1077.0
-offset_top = 390.0
-offset_right = 1278.0
-offset_bottom = 447.0
+offset_left = 1085.0
+offset_top = 338.0
+offset_right = 1286.0
+offset_bottom = 395.0
 theme_override_font_sizes/font_size = 35
 text = "NEXT TURN
 "
 
 [node name="TurnLabel" type="Label" parent="."]
-offset_left = 73.0
-offset_top = 314.0
-offset_right = 158.0
-offset_bottom = 349.0
+offset_left = 80.0
+offset_top = 335.0
+offset_right = 165.0
+offset_bottom = 370.0
 theme_override_font_sizes/font_size = 25
 text = "Turn: 1"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 
 [node name="TurnPointer" type="Sprite2D" parent="."]
-position = Vector2(49, 331)
+position = Vector2(52, 353)
 texture = ExtResource("7_bvlgs")
 
 [connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]
