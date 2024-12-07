@@ -10,22 +10,22 @@ var skillDatabase = preload("res://SkillsDatabase.gd")
 var skillsDatabase = preload("res://SkillsDatabase.gd")
 var passive_skills = skillsDatabase.PASSIVE_SKILLS
 
-@onready var base_scene: Node2D = $DetailView
+@onready var base_scene: Node2D 
 # either detail, combat or hand 
 var view: String
 
 var card_name: String 
 var level = 1
 var wait_timer : int :
-	get: 
-		return wait_timer
 	set(val):
+		print("setting wait timer " + card_name + " to " + str(val))
 		wait_timer = max(0, val)
 		if view == "compact":
-			base_scene.get_node("CardWait/WaitLabel").text = str(wait_timer)
-		if wait_timer == 0:
-			var playableBorder = str("res://Assets/Cards/Borders/square_border_playable.png")
-			base_scene.get_node("Sprites/Border").texture = load(playableBorder)
+			base_scene.get_node("CardWait/WaitLabel").text = str(val)
+			print(base_scene.get_children())
+			if wait_timer == 0:
+				var playableBorder = str("res://Assets/Cards/Borders/square_border_playable.png")
+				base_scene.get_node("Sprites/Border").texture = load(playableBorder)
 			
 var card_atk :int = 100
 var default_hp = 100
