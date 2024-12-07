@@ -88,8 +88,6 @@ func play_cards():
 	var cards_played = 0
 	var queued_cards = players[active_player]["queued_cards"]
 	for i in range(len(queued_cards)):
-		print("playelen queued cards are: ")
-		print(queued_cards)
 		active_card = queued_cards.pop_front()
 		players[active_player]["hand"].erase(active_card)
 		move_card(active_card, "player" + str(active_player) + "_hand", "player" + str(active_player) + "_battlefield")
@@ -97,24 +95,9 @@ func play_cards():
 		var player_cards_path = "MainArea/BattleField/Player" + str(active_player) + "BattleArea/Cards"
 		var player_battlefield_cards_parent_scene = get_node(player_cards_path)
 		# base position for cards on battlefield for this player
-		print($MainArea/BattleField/Player1BattleArea.position)
-		active_card.position = Vector2(0,0)#player_battlefield_cards_parent_scene.global_position
-		print("global pposition is")
-		print(active_card.global_position)
-		print("children: " + str(get_children()))
-		print("battlefield coords: " + str(player_battlefield_cards_parent_scene.global_position))
+		active_card.position = Vector2(0,0)
 		var player_battlefield_cards = battlefield_cards[active_player]
 		active_card.position.x += 172 * (len(player_battlefield_cards) - 1)
-		
-		#active_card.scale *= combatCardSize / active_card.size
-		
-		#player_battlefield_cards_parent_scene.add_child(active_card)
-		#player_battlefield_cards.push_back(active_card)
-		var playerbattlefieldCardNames = []
-		for battlefield_card in player_battlefield_cards:
-			playerbattlefieldCardNames.append(battlefield_card.card_name)
-		print("battle cards: ")
-		print( playerbattlefieldCardNames)
 		cards_played += 1
 		
 # needs to be fixed, we dont want updates when cards go to graveyard until end of turn
@@ -132,13 +115,11 @@ func rerender(location):
 			players[1]["hand"][i].position.x += 100*i
 			
 	if location == "player0_battlefield":
-		print("rerender p0")
 		var all_cards = $MainArea/BattleField/Player0BattleArea/Cards
 		for i in range(len(battlefield_cards[0])):
 			battlefield_cards[0][i].position = all_cards.position
 			battlefield_cards[0][i].position.x += 172*i
 	if location == "player1_battlefield":
-		print("rerender p1")
 		var all_cards = $MainArea/BattleField/Player1BattleArea/Cards
 		for i in range(len(battlefield_cards[1])):
 			battlefield_cards[1][i].position = all_cards.position
@@ -215,7 +196,6 @@ func play_card_phase():
 		for i in range(len(hand_cards)):
 			if hand_cards[i].wait_timer == 0:
 				players[active_player]["queued_cards"].append(hand_cards[i])
-				print(hand_cards[i].card_name)
 	
 	if len(players[active_player]["queued_cards"]) > 0:
 		play_cards()
@@ -225,11 +205,8 @@ func action_phase():
 	var card: Object
 	var cardSkills: Array
 	var player_battlefield_cards = battlefield_cards[active_player]
-	print("player has" + str(player_battlefield_cards.size()) + "cards on the field")
 	for currentCardPosition in range(player_battlefield_cards.size()):
 		card = player_battlefield_cards[currentCardPosition]
-		print("card is " + card.card_name)
-		#print(card.get_children())
 		# perform card skill
 		cardSkills = card.get_skills()
 		for skill in cardSkills:
@@ -250,8 +227,7 @@ func basic_attack(card, position):
 	else:
 		var other_player_hp_label : Label = get_node("MainArea/Player" + str(other_player) + "Profile/HPLabel")
 		players[other_player]["hero_hp"] -= card.card_atk
-		other_player_hp_label.text = str(players[other_player]["hero_hp"])
-		print("attacking hero")
+		other_player_hp_label.text = "HP: " + str(players[other_player]["hero_hp"])
 	
 func use_skill(card, card_position: int, skill_name: String) -> void:
 	match skill_name:
@@ -276,7 +252,6 @@ func modify_entity(source: Object, target: Object, effect_type: String, hp_chang
 		target.modify(source, effect_type, hp_change, atk_change, add_effect, remove_effect)
 	
 func end_phase():
-	print("end phase")
 	$NextTurnButton.disabled = false
 	for card in battlefield_cards[0] + battlefield_cards[1]:
 		card.tick()
@@ -330,7 +305,6 @@ func start():
 	#players[active_player]["deck"] = ["Footman"]
 	players[active_player+ 1]["deck"] = Global.playerStateMachine2.deck.duplicate(true)
 	shuffle_deck(players[active_player]["deck"])
-	print(players[active_player]["deck"]) 
 
 func finish():
 	hide()
