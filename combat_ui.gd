@@ -154,9 +154,9 @@ func move_card(card: Object, src: String, destination: String):
 		var hand_scene = get_node("MainArea/Player0Hand/Cards")
 		
 	if (src == "player1_hand"):
-		players[1]["hand"].remove_at(position)
-		print("player hand after moving")
-		print(players[active_player]["hand"])
+		var src_parent = get_node("MainArea/Player1Hand/Cards")
+		src_parent.remove_child(card)
+		var hand_scene = get_node("MainArea/Player1Hand/Cards")
 		
 	if (src == "player0_battlefield"):
 		battlefield_cards[0]["hand"].remove_at(position)
@@ -328,7 +328,7 @@ func start():
 	show() 
 	players[active_player]["deck"] = Global.playerStateMachine.deck.duplicate(true)	
 	#players[active_player]["deck"] = ["Footman"]
-	#players[active_player+ 1]["deck"] = Global.playerStateMachine2.deck.duplicate(true)
+	players[active_player+ 1]["deck"] = Global.playerStateMachine2.deck.duplicate(true)
 	shuffle_deck(players[active_player]["deck"])
 	print(players[active_player]["deck"]) 
 

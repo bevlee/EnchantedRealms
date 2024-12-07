@@ -174,15 +174,11 @@ texture = ExtResource("4_xjm4t")
 centered = false
 offset = Vector2(-50, 0)
 
-[node name="AttackLabel" type="RichTextLabel" parent="CombatView/Attributes/Attack"]
+[node name="AttackLabel" type="Label" parent="CombatView/Attributes/Attack"]
 offset_left = -34.0
 offset_top = 407.0
 offset_right = 500.0
 offset_bottom = 535.0
-theme_override_colors/default_color = Color(1, 1, 1, 1)
-theme_override_fonts/italics_font = SubResource("SystemFont_fs8dc")
-theme_override_font_sizes/normal_font_size = 90
-theme_override_font_sizes/italics_font_size = 90
 text = "ATK: 1000"
 metadata/_edit_use_anchors_ = true
 
