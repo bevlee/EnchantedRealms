@@ -2,7 +2,7 @@ extends Node2D
 
 class_name Card
 
-signal dead
+signal dead(location)
 
 var cardDatabase = preload("res://CardsDatabase.gd")
 var skillDatabase = preload("res://SkillsDatabase.gd")
@@ -14,6 +14,10 @@ var passive_skills = skillsDatabase.PASSIVE_SKILLS
 # either detail, combat or hand 
 var view: String
 
+# battlefield or graveyard
+var location
+# player 1 or 2
+var owned_by
 var card_name: String 
 var level = 1
 var wait_timer : int :
@@ -60,25 +64,12 @@ var card_type
 # buffs and debuffs
 var applied_effects: Dictionary
 const CARD_SIZES = {
-	"combat": Vector2(172,220),
+	"combat": Vector2(160,210),
 	"detail": Vector2(240,320),
 	"compact": Vector2(100,100),
 	"sprite": Vector2(1000,1500),
 	"border": Vector2(1150,1660)
 }
-
-# Called when the node enters the scene tree for the first time.
-#func _ready():
-	#if card_name == "":
-		#card_name = default_cardName
-	#load_card(card_name, level, view)
-	#base_scene.get_node("Sprites/Card").scale = CARD_SIZES["sprite"] / base_scene.get_node("Sprites/Card").texture.get_size()
-	#base_scene.get_node("Sprites/Border").scale = CARD_SIZES["border"] / base_scene.get_node("Sprites/Border").texture.get_size() 
-	#var scaled_base_size = CARD_SIZES["border"]
-	#var size = scaled_base_size
-	#print(size)
-	#base_scene.scale = CARD_SIZES[view] / CARD_SIZES["border"]
-	#base_scene.position = CARD_SIZES[view] / 2
 	
 func rerender():
 	print("rerendering")
@@ -115,12 +106,11 @@ func take_action(action: String) -> void:
 	$Effects/ActionText.position=Vector2(0,225)
 	$Effects/ActionText.visible=true
 	$Effects/ActionText.modulate=Color(1,1,1,1)
-	tween.tween_property($Effects/ActionText, "position", Vector2(0,-100), 1.0)
+	tween.tween_property($Effects/ActionText, "position", Vector2(0,-20), 1.0)
 	tween.tween_property($Effects/ActionText, "modulate", Color(1,1,1,0), 0.5)
 	await tween.finished
 	$Effects/ActionText.visible=false
 	set_inactive()
-	#print("finishing action for card" + cardName)
 	
 func set_active():
 	base_scene.get_node("Sprites/Border").material.set_shader_parameter("outline_color", Color(255,0,0,1)) 
@@ -166,9 +156,7 @@ func load_card(card_name = self.card_name, level = self.level, view= self.view):
 		base_scene.get_node("Attributes/Attack/AttackLabel").text = "ATK: " + str(atk)
 		base_scene.get_node("Attributes/HP/HPLabel").text = "HP: " + str(default_hp)
 
-	#$Border.scale *= cardSize / $Border.texture.get_size()
 	base_scene.get_node("Sprites/Card").texture = load(cardImg)
-	#$Card.scale *= cardSize/$Card.texture.get_size()
 	rerender()
 	
 func get_skills() ->  Array:

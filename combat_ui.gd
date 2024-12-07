@@ -147,6 +147,7 @@ func move_card(card: Object, src: String, destination: String):
 	if (destination == "player0_battlefield"):
 		destination_parent = get_node("MainArea/BattleField/Player0BattleArea/Cards")
 		destination_parent.add_child(card)
+		card.dead.connect(move_card, card, card.position, card.owner)
 		card.set_view("combat")
 		battlefield_cards[0].append(card)
 	if (destination == "player1_battlefield"):
