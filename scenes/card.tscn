@@ -137,7 +137,6 @@ centered = false
 offset = Vector2(-50, 0)
 
 [node name="CombatView" type="Node2D" parent="."]
-visible = false
 
 [node name="Sprites" type="Node2D" parent="CombatView"]
 metadata/_edit_lock_ = true
@@ -196,15 +195,12 @@ texture = ExtResource("4_xjm4t")
 centered = false
 offset = Vector2(-50, 0)
 
-[node name="HPLabel" type="RichTextLabel" parent="CombatView/Attributes/HP"]
+[node name="HPLabel" type="Label" parent="CombatView/Attributes/HP"]
 offset_left = -114.0
 offset_top = 573.0
 offset_right = 319.0
 offset_bottom = 701.0
-theme_override_colors/default_color = Color(1, 1, 1, 1)
-theme_override_fonts/italics_font = SubResource("SystemFont_fs8dc")
-theme_override_font_sizes/normal_font_size = 90
-theme_override_font_sizes/italics_font_size = 90
+theme_override_font_sizes/font_size = 90
 text = "HP: 1000"
 
 [node name="Faction" type="Node2D" parent="CombatView/Attributes"]
@@ -228,6 +224,7 @@ centered = false
 offset = Vector2(-50, 0)
 
 [node name="CompactView" type="Node2D" parent="."]
+visible = false
 
 [node name="Sprites" type="Node2D" parent="CompactView"]
 

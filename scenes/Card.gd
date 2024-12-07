@@ -28,17 +28,20 @@ var wait_timer : int :
 				base_scene.get_node("Sprites/Border").texture = load(playableBorder)
 			
 var card_atk :int = 100
-var default_hp = 100
+var default_hp
 var card_hp: int = 100 :
-	get: 
-		return card_hp
 	set(val):
 		var new_hp: int = max(0, val)
 		card_hp = new_hp
 		if view != "compact":
 			var hp_label = base_scene.get_node("Attributes/HP/HPLabel")
-			hp_label.text = str(new_hp)
+			hp_label.text = "HP: " + str(new_hp)
 			# set black for default
+			print("default and self")
+			print(default_hp)
+			print(new_hp)
+			if !default_hp:
+				default_hp = 1
 			if new_hp == default_hp:
 				hp_label.add_theme_color_override("font_color", Color(0,0,0,1)) 
 				
@@ -143,9 +146,9 @@ func load_card(card_name = self.card_name, level = self.level, view= self.view):
 	card_atk = atk
 	
 	# Set hp
-	default_hp = cardInfo[9] + cardInfo[12]*level
+	self.default_hp = cardInfo[9] + cardInfo[12]*level
 	#card_hp = default_hp
-	card_hp = default_hp
+	card_hp = self.default_hp
 	# Set wait timer
 	wait_timer = cardInfo[3]
 	card_type = cardInfo[0]
